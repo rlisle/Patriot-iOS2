@@ -21,7 +21,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="mV5-uN-CiK"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Devices" id="RjU-eV-AWL"/>
+                    <tabBarItem key="tabBarItem" title="Devices" image="DevicesTabBarIcon" id="RjU-eV-AWL"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kOK-ht-fKD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -37,7 +37,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="1eK-cz-v20"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Activities" id="AJn-wd-ak6"/>
+                    <tabBarItem key="tabBarItem" title="Activities" image="ActivityTabBarIcon" id="AJn-wd-ak6"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wmO-fd-ZfE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -124,7 +124,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Login" id="xnd-hV-3uS"/>
+                    <tabBarItem key="tabBarItem" title="Login" image="LoginTabBarIcon" id="xnd-hV-3uS"/>
                     <connections>
                         <outlet property="imageView" destination="KNg-hZ-nhL" id="Xxj-4C-zRB"/>
                         <outlet property="label" destination="DzS-sf-4Ry" id="7wm-ej-j4T"/>
@@ -232,6 +232,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ActivityTabBarIcon" width="30" height="30"/>
+        <image name="DevicesTabBarIcon" width="30" height="30"/>
         <image name="LightOff" width="250" height="250"/>
+        <image name="LoginTabBarIcon" width="30" height="30"/>
     </resources>
 </document>
