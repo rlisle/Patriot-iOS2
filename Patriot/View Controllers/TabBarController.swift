@@ -17,6 +17,19 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        selectLoginTab()
+    }
+    
+    func selectActivitiesTab() {
+        selectedIndex = 0
+    }
+    
+    func selectDevicesTab() {
+        selectedIndex = 1
+    }
+    
+    func selectLoginTab() {
         selectedIndex = 2
     }
+    
 }
