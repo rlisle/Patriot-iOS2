@@ -64,7 +64,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="Ma8-kz-Y4F">
             <objects>
-                <tabBarController id="8ZA-Cm-BHV" sceneMemberID="viewController">
+                <tabBarController id="8ZA-Cm-BHV" customClass="TabBarController" customModule="Patriot" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ZhK-1W-vDU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
