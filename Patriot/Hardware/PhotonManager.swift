@@ -24,6 +24,7 @@
 
 import Foundation
 import Particle_SDK
+import PromiseKit
 
 protocol PhotonDelegate
 {
@@ -46,7 +47,7 @@ class PhotonManager: NSObject, HwManager
     var subscribeHandler:  Any?
     var deviceDelegate:    DeviceNotifying?
     var activityDelegate:  ActivityNotifying?
-    var loginManager:      LoginManager?
+    var loginManager:      LoggingIn?
 
     var photons: [String: Photon] = [: ]   // All the particle devices attached to logged-in user's account
     let eventName          = "patriot"
@@ -57,8 +58,9 @@ class PhotonManager: NSObject, HwManager
 
     func discoverDevices(completion: @escaping (Error?) -> Void)
     {
-        guard loginManager?.isLoggedIn else {
+        guard loginManager?.isLoggedIn == true else {
             completion(ParticleSDKError.notLoggedIn)
+            return
         }
         getAllPhotonDevices(completion: completion)
     }
@@ -75,6 +77,7 @@ class PhotonManager: NSObject, HwManager
             guard devices != nil && error == nil else {
                 print("getAllPhotonDevices error: \(error!)")
                 completion(error)
+                return
             }
             self.addAllPhotonsToCollection(devices: devices!)
             print("All photons added to collection")
