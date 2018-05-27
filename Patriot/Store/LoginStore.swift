@@ -1,6 +1,6 @@
 //
 //  LoginStore.swift
-//  ParticleLogin
+//  Patriot
 //
 //  This protocol defines the interface to persist the user's ID and password
 //

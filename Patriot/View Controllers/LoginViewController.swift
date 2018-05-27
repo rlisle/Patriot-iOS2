@@ -1,6 +1,6 @@
 //
-//  ViewController.swift
-//  ParticleLogin
+//  LoginViewController.swift
+//  Patriot
 //
 //  Created by Ron Lisle on 5/14/18.
 //  Copyright © 2018 Rons iMac. All rights reserved.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class LoginViewController: UIViewController {
 
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var loginButton: UIButton!

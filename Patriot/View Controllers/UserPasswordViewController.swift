@@ -1,6 +1,6 @@
 //
 //  UserPasswordViewController.swift
-//  ParticleLogin
+//  Patriot
 //
 //  Created by Ron Lisle on 5/14/18.
 //  Copyright © 2018 Rons iMac. All rights reserved.
