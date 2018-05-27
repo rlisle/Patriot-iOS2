@@ -63,7 +63,7 @@ class LoginViewController: UIViewController {
                 self.updateDisplay()
 
                 //TODO: Delay 1 second then switch to Activities display after auto logging in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     if let tabBarController = self.tabBarController as? TabBarController {
                         tabBarController.selectActivitiesTab()
                     }

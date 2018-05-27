@@ -18,62 +18,32 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
 
         delegate = self
-        selectLoginTab()
-    }
-    
-    func selectActivitiesTab() {
-        selectedIndex = 0
-    }
-    
-    func selectDevicesTab() {
-        selectedIndex = 1
-    }
-    
-    func selectLoginTab() {
         selectedIndex = 2
     }
     
-//    func animateToTab(toIndex: Int) {
-//        let tabViewControllers = viewControllers!
-//        let fromView = selectedViewController!.view
-//        let toView = tabViewControllers[toIndex].view
-//        let fromIndex = tabViewControllers.indexOf(selectedViewController!)
-//
-//        guard fromIndex != toIndex else {return}
-//
-//        // Add the toView to the tab bar view
-//        fromView.superview!.addSubview(toView)
-//
-//        // Position toView off screen (to the left/right of fromView)
-//        let screenWidth = UIScreen.mainScreen().bounds.size.width;
-//        let scrollRight = toIndex > fromIndex;
-//        let offset = (scrollRight ? screenWidth : -screenWidth)
-//        toView.center = CGPoint(x: fromView.center.x + offset, y: toView.center.y)
-//
-//        // Disable interaction during animation
-//        view.userInteractionEnabled = false
-//
-//        UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-//
-//            // Slide the views by -offset
-//            fromView.center = CGPoint(x: fromView.center.x - offset, y: fromView.center.y);
-//            toView.center   = CGPoint(x: toView.center.x - offset, y: toView.center.y);
-//
-//        }, completion: { finished in
-//
-//            // Remove the old view from the tabbar view.
-//            fromView.removeFromSuperview()
-//            self.selectedIndex = toIndex
-//            self.view.userInteractionEnabled = true
-//        })
-//    }
-}
-
-extension TabBarController: UITabBarControllerDelegate {
+    func selectActivitiesTab() {
+        print("selectActivitiesTab")
+        animateToTab(toIndex: 0)
+    }
     
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        
-        print("tabBarController shouldSelect called")
+    func selectDevicesTab() {
+        print("selectDevicesTab")
+        animateToTab(toIndex: 1)
+    }
+    
+    func selectLoginTab() {
+        print("selectLoginTab")
+        animateToTab(toIndex: 2)
+    }
+    
+    func animateToTab(toIndex: Int) {
+        let tabViewControllers = viewControllers!
+        let toViewController = tabViewControllers[toIndex]
+        animateToTab(viewController: toViewController)
+    }
+    
+    func animateToTab(viewController: UIViewController) -> Bool {
+        print("animateToTab viewController")
         guard let fromView = selectedViewController?.view, let toView = viewController.view else {
             return false
         }
@@ -81,7 +51,7 @@ extension TabBarController: UITabBarControllerDelegate {
         let fromIndex = tabViewControllers.index(of: selectedViewController!)!   // YOLO
         let toIndex = tabViewControllers.index(of: viewController)!
         guard fromIndex != toIndex else {return false}
-
+        
         // Add the toView to the tab bar view
         fromView.superview!.addSubview(toView)
         
@@ -107,10 +77,15 @@ extension TabBarController: UITabBarControllerDelegate {
             self.selectedIndex = toIndex
             self.view.isUserInteractionEnabled = true
         })
-
-        
-        
         return true
+    }
+}
+
+extension TabBarController: UITabBarControllerDelegate {
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        print("tabBarController shouldSelect called")
+        return animateToTab(viewController: viewController)
     }
 
 }
