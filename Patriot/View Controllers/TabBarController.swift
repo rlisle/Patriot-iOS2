@@ -39,7 +39,7 @@ class TabBarController: UITabBarController {
     func animateToTab(toIndex: Int) {
         let tabViewControllers = viewControllers!
         let toViewController = tabViewControllers[toIndex]
-        animateToTab(viewController: toViewController)
+        _ = animateToTab(viewController: toViewController)
     }
     
     func animateToTab(viewController: UIViewController) -> Bool {
