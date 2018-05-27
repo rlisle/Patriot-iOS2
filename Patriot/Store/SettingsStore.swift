@@ -1,6 +1,6 @@
 //
 //  SettingsStore.swift
-//  ParticleLogin
+//  Patriot
 //
 //  This class implements LoginStore using UserDefaults
 //

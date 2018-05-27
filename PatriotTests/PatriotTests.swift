@@ -1,15 +1,15 @@
 //
-//  ParticleLoginTests.swift
-//  ParticleLoginTests
+//  PatriotTests.swift
+//  PatriotTests
 //
 //  Created by Ron Lisle on 5/14/18.
 //  Copyright © 2018 Rons iMac. All rights reserved.
 //
 
 import XCTest
-@testable import ParticleLogin
+@testable import Patriot
 
-class ParticleLoginTests: XCTestCase {
+class PatriotTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

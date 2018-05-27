@@ -1,6 +1,6 @@
 //
-//  ViewController.swift
-//  ParticleLogin
+//  LoginViewController.swift
+//  Patriot
 //
 //  Created by Ron Lisle on 5/14/18.
 //  Copyright © 2018 Rons iMac. All rights reserved.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class LoginViewController: UIViewController {
 
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var loginButton: UIButton!
@@ -61,6 +61,13 @@ class ViewController: UIViewController {
                     print("Error auto logging in: \(error)")
                 }
                 self.updateDisplay()
+
+                //TODO: Delay 1 second then switch to Activities display after auto logging in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                    if let tabBarController = self.tabBarController as? TabBarController {
+                        tabBarController.selectActivitiesTab()
+                    }
+                }
             }
         }
     }
