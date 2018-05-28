@@ -30,7 +30,13 @@ class AppFactory
         viewController.loginManager = loginManager
     }
     
-    func configureActivities(viewController: UIViewController)
+    func configureActivities(viewController: ActivitiesViewController)
     {
+        viewController.settings = settings
+        let activitiesDataManager = ActivitiesDataManager(hardware: hwManager)
+        viewController.dataManager = activitiesDataManager
+        hwManager.activityDelegate = activitiesDataManager
+        hwManager.deviceDelegate = activitiesDataManager
+        activitiesDataManager.delegate = viewController
     }
 }

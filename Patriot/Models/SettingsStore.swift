@@ -2,7 +2,7 @@
 //  SettingsStore.swift
 //  Patriot
 //
-//  This class implements LoginStore using UserDefaults
+//  This class implements SettingsStore using UserDefaults
 //
 //  Created by Ron Lisle on 5/24/18.
 //  Copyright © 2018 Rons iMac. All rights reserved.

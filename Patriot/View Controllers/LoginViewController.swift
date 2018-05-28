@@ -25,6 +25,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Call factory to configure our dependencies
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate
         {
             let appFactory = appDelegate.appFactory
