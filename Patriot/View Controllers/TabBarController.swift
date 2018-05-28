@@ -44,7 +44,12 @@ class TabBarController: UITabBarController {
     
     func animateToTab(viewController: UIViewController) -> Bool {
         print("animateToTab viewController")
-        guard let fromView = selectedViewController?.view, let toView = viewController.view else {
+        print("selectedViewController = \(selectedViewController)")
+        guard let fromView = selectedViewController?.view else {
+            return false
+        }
+        print("viewController = \(viewController)") // Maybe lazy loading is throwing?
+        guard let toView = viewController.view else {
             return false
         }
         let tabViewControllers = viewControllers!

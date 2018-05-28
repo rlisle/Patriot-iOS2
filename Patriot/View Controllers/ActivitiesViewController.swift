@@ -18,6 +18,8 @@ class ActivitiesViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print("ActivitiesViewController viewDidLoad")
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

@@ -102,10 +102,10 @@
 		87DCE2B520B75046001BFBFA /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E4C283F520BC257400C98A43 /* ActivitiesViewController.swift */,
 				E4362E2A20A9A918006C1405 /* LoginViewController.swift */,
 				8781D5F520AA4D4200E74AEE /* UserPasswordViewController.swift */,
 				E400717920BAC98800DC9A8D /* TabBarController.swift */,
-				E4C283F520BC257400C98A43 /* ActivitiesViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
