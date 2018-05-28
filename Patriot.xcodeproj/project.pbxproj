@@ -24,6 +24,7 @@
 		E4C283EF20BB55CA00C98A43 /* HwController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283ED20BB55CA00C98A43 /* HwController.swift */; };
 		E4C283F020BB55CA00C98A43 /* HwManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283EE20BB55CA00C98A43 /* HwManager.swift */; };
 		E4C283F220BB561A00C98A43 /* PhotonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283F120BB561A00C98A43 /* PhotonManager.swift */; };
+		E4C283F420BC136100C98A43 /* AppFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283F320BC136100C98A43 /* AppFactory.swift */; };
 		E4C93C4620B6DDD300FBA4FD /* LoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C93C4520B6DDD300FBA4FD /* LoginStore.swift */; };
 		E4C93C4820B6DF1600FBA4FD /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C93C4720B6DF1600FBA4FD /* SettingsStore.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +63,7 @@
 		E4C283ED20BB55CA00C98A43 /* HwController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HwController.swift; sourceTree = "<group>"; };
 		E4C283EE20BB55CA00C98A43 /* HwManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HwManager.swift; sourceTree = "<group>"; };
 		E4C283F120BB561A00C98A43 /* PhotonManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotonManager.swift; sourceTree = "<group>"; };
+		E4C283F320BC136100C98A43 /* AppFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFactory.swift; sourceTree = "<group>"; };
 		E4C93C4520B6DDD300FBA4FD /* LoginStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStore.swift; sourceTree = "<group>"; };
 		E4C93C4720B6DF1600FBA4FD /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -133,6 +135,7 @@
 		87DCE2B920B751E2001BFBFA /* Other Files */ = {
 			isa = PBXGroup;
 			children = (
+				E4C283F320BC136100C98A43 /* AppFactory.swift */,
 				E4362E2820A9A918006C1405 /* AppDelegate.swift */,
 				E4362E2F20A9A919006C1405 /* Assets.xcassets */,
 				E4362E3420A9A919006C1405 /* Info.plist */,
@@ -359,6 +362,7 @@
 				E4C283EB20BB554E00C98A43 /* ActivityNotifying.swift in Sources */,
 				E4C283EC20BB554E00C98A43 /* DeviceNotifying.swift in Sources */,
 				E4C93C4820B6DF1600FBA4FD /* SettingsStore.swift in Sources */,
+				E4C283F420BC136100C98A43 /* AppFactory.swift in Sources */,
 				E4C283F020BB55CA00C98A43 /* HwManager.swift in Sources */,
 				E4C283EF20BB55CA00C98A43 /* HwController.swift in Sources */,
 				8781D5F620AA4D4200E74AEE /* UserPasswordViewController.swift in Sources */,

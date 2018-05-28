@@ -10,31 +10,93 @@
 
 import Foundation
 
-class SettingsStore: LoginStore
+// We'll use the default string rawValue for the key in the store
+enum SettingsKey: String
 {
-    let userKey = "userKey"
-    let passwordKey = "passwordKey"
+    case particleUser
+    case particlePassword
+}
+
+protocol SettingsStore
+{
+    func getBool(forKey: SettingsKey) -> Bool?
+    func set(_ bool: Bool?, forKey: SettingsKey)
+    func getInt(forKey: SettingsKey) -> Int?
+    func set(_ int: Int?, forKey: SettingsKey)
+    func getString(forKey: SettingsKey) -> String?
+    func set(_ string: String?, forKey: SettingsKey)
+}
+
+class UserDefaultsSettingsStore: SettingsStore
+{
+    let userDefaults = UserDefaults.standard
     
-    var userId: String?
+    func getBool(forKey key: SettingsKey) -> Bool?
+    {
+        return userDefaults.bool(forKey: key.rawValue)
+    }
+    
+    
+    func set(_ bool: Bool?, forKey key: SettingsKey)
+    {
+        userDefaults.set(bool, forKey: key.rawValue)
+    }
+    
+    
+    func getInt(forKey key: SettingsKey) -> Int?
+    {
+        return userDefaults.integer(forKey: key.rawValue)
+    }
+    
+    
+    func set(_ int: Int?, forKey key: SettingsKey)
+    {
+        userDefaults.set(int, forKey: key.rawValue)
+    }
+    
+    
+    func getString(forKey key: SettingsKey) -> String?
+    {
+        return userDefaults.string(forKey: key.rawValue)
+    }
+    
+    
+    func set(_ string: String?, forKey key: SettingsKey)
+    {
+        userDefaults.set(string, forKey: key.rawValue)
+    }
+}
+
+class Settings
+{
+    let store: SettingsStore
+    
+    init(store: SettingsStore)
+    {
+        self.store = store
+    }
+}
+
+
+extension Settings
+{
+    var particleUser: String?
     {
         get {
-            let defaults = UserDefaults.standard
-            return defaults.object(forKey: userKey) as? String
+            return store.getString(forKey: .particleUser)
         }
         set {
-            let defaults = UserDefaults.standard
-            defaults.set(newValue, forKey: userKey)
+            store.set(newValue, forKey: .particleUser)
         }
     }
-    var password: String?
-    {
+    
+    
+    var particlePassword: String? {
         get {
-            let defaults = UserDefaults.standard
-            return defaults.object(forKey: passwordKey) as? String
+            return store.getString(forKey: .particlePassword)
         }
         set {
-            let defaults = UserDefaults.standard
-            defaults.set(newValue, forKey: passwordKey)
+            store.set(newValue, forKey: .particlePassword)
         }
     }
 }

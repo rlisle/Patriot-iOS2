@@ -2,16 +2,19 @@
 //  PhotonManager.swift
 //  Patriot
 //
-//  This class manages the collection of Photon devices
+//  This class manages the collection of Photon microcontrollers
 //
-//  Discovery will search for all the Photon devices on the network.
+//  Discovery will search for all the Photon devices on the network
+//  in the logged-in user's account.
+//
 //  When a new device is found, it will be added to the photons collection
-//  and a delegate or notification sent.
+//  and a delegate called.
 //  This is the anticipated way of updating displays, etc.
 //
 //  The current activity state will be gleaned from the exposed Activities
 //  properties of one or more Photons initially, but then tracked directly
-//  after initialization by subscribing to particle events.
+//  after initialization by subscribing to particle or MQTT events.
+//
 //  Subscribing to particle events will also allow detecting new Photons
 //  as they come online and start issuing 'alive' events.
 //

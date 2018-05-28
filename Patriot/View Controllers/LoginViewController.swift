@@ -14,16 +14,22 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
-    
-    var store: LoginStore = SettingsStore()
-    let loginManager: LoggingIn = ParticleLogin()
+
+    // Set by AppFactory
+    var settings: Settings!
+    var loginManager: LoggingIn!
     
     var user: String?
     var password: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        {
+            let appFactory = appDelegate.appFactory
+            appFactory?.configureLogin(viewController: self)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -35,8 +41,8 @@ class LoginViewController: UIViewController {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let userPasswordVC = storyboard.instantiateViewController(withIdentifier: "UserPasswordViewController") as! UserPasswordViewController
         userPasswordVC.onComplete = { (user: String, password: String) in
-            self.store.userId = user
-            self.store.password = password
+            self.settings.particleUser = user
+            self.settings.particlePassword = password
             self.loginManager.login(user: user, password: password, completion: { (error) in
                 if let error = error {
                     print("Error logging in: \(error)")
@@ -44,18 +50,18 @@ class LoginViewController: UIViewController {
                 self.updateDisplay()
             })
         }
-        userPasswordVC.prevUser = store.userId
+        userPasswordVC.prevUser = settings.particleUser
         self.present(userPasswordVC, animated: true)
     }
     
     @IBAction func logoutPressed(_ sender: UIButton) {
-        self.store.password = nil
+        self.settings.particlePassword = ""
         loginManager.logout()
         updateDisplay()
     }
     
     func performAutoLogin() {
-        if let user = store.userId, let password = store.password {
+        if let user = settings.particleUser, let password = settings.particlePassword {
             loginManager.login(user: user, password: password) { (error) in
                 if let error = error {
                     print("Error auto logging in: \(error)")
