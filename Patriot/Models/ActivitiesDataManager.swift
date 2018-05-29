@@ -26,6 +26,7 @@ class ActivitiesDataManager
 //        activities.append(Activity(name: "piano", percent: 0))
 //        activities.append(Activity(name: "tv", percent: 0))
 //        activities.append(Activity(name: "dishes", percent: 0))
+        refresh(supported: hardware.supportedNames)
     }
 
 

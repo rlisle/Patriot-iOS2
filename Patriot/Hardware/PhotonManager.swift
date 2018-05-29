@@ -44,13 +44,13 @@ enum ParticleSDKError : Error
 }
 
 
-class PhotonManager: NSObject, HwManager
+class PhotonManager: NSObject
 {
-    
+    var isLoggedIn = false
+
     var subscribeHandler:  Any?
     var deviceDelegate:    DeviceNotifying?
     var activityDelegate:  ActivityNotifying?
-    var loginManager:      LoggingIn?
 
     var photons: [String: Photon] = [: ]   // All the particle devices attached to logged-in user's account
     let eventName          = "patriot"
@@ -58,13 +58,18 @@ class PhotonManager: NSObject, HwManager
     var supportedNames     = Set<String>()      // Activity names exposed by the "Supported" variables
     var currentActivities:  [String: Int] = [: ] // List of currently on activities reported by Master
     
+}
 
+extension PhotonManager: HwManager
+{
+    //TODO: is this ever needed?
     func discoverDevices(completion: @escaping (Error?) -> Void)
     {
-        guard loginManager?.isLoggedIn == true else {
+        if !isLoggedIn {
             completion(ParticleSDKError.notLoggedIn)
             return
         }
+        
         getAllPhotonDevices(completion: completion)
     }
     
@@ -168,6 +173,39 @@ class PhotonManager: NSObject, HwManager
     }
 }
 
+
+extension PhotonManager: LoggingIn
+{
+    /**
+     * Login to the particle.io account
+     * The particle SDK will use the returned token in subsequent calls.
+     * We don't have to save it.
+     */
+    func login(user: String, password: String, completion: @escaping (Error?) -> Void)
+    {
+        if !isLoggedIn {
+            
+            ParticleCloud.sharedInstance().login(withUser: user, password: password) { (error) in
+                if error == nil {
+                    self.isLoggedIn = true
+                    self.getAllPhotonDevices(completion: completion)
+
+                } else {
+                    print ("Error logging in: \(error!)")
+                    self.isLoggedIn = false
+                    completion(error)
+                }
+            }
+        }
+    }
+    
+    func logout()
+    {
+        ParticleCloud.sharedInstance().logout()
+        isLoggedIn = false
+    }
+
+}
 
 extension PhotonManager
 {

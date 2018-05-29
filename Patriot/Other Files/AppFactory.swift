@@ -16,7 +16,6 @@ class AppFactory
 {
     let window: UIWindow
     let hwManager = PhotonManager()
-    let loginManager = ParticleLogin()
     let settings = Settings(store: UserDefaultsSettingsStore())
     
     init(window: UIWindow)
@@ -27,7 +26,7 @@ class AppFactory
     func configureLogin(viewController: LoginViewController)
     {
         viewController.settings = settings
-        viewController.loginManager = loginManager
+        viewController.loginManager = hwManager
     }
     
     func configureActivities(viewController: ActivitiesViewController)

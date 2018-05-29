@@ -23,6 +23,7 @@ class ActivitiesViewController: UICollectionViewController {
         {
             //TODO: inject factory into init
             appDelegate.appFactory?.configureActivities(viewController: self)
+            print("Number of activities: \(dataManager!.activities.count)")
         }
     }
 
