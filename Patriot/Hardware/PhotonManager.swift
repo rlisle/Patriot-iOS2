@@ -65,7 +65,9 @@ extension PhotonManager: HwManager
     //TODO: is this ever needed?
     func discoverDevices(completion: @escaping (Error?) -> Void)
     {
+        print("Discover devices")
         if !isLoggedIn {
+            print("   not logged in")
             completion(ParticleSDKError.notLoggedIn)
             return
         }
@@ -79,6 +81,7 @@ extension PhotonManager: HwManager
      */
     func getAllPhotonDevices(completion: @escaping (Error?) -> Void)
     {
+        print("getAllPhotonDevices")
         ParticleCloud.sharedInstance().getDevices {
             (devices: [ParticleDevice]?, error: Error?) in
             
@@ -88,16 +91,20 @@ extension PhotonManager: HwManager
                 return
             }
             self.addAllPhotonsToCollection(devices: devices!)
-            print("All photons added to collection")
-            self.activityDelegate?.supportedListChanged()
-            completion(error)
+                .then { _ -> Void in
+                    print("All photons added to collection")
+                    self.activityDelegate?.supportedListChanged()
+                    completion(error)
+            }
         }
     }
 
 
-    func addAllPhotonsToCollection(devices: [ParticleDevice])
+    func addAllPhotonsToCollection(devices: [ParticleDevice]) -> Promise<Void>
     {
+        print("addAllPhotonsToCollection")
         self.photons = [: ]
+        var promises = [Promise<Void>]()
         for device in devices
         {
             if isValidPhoton(device)
@@ -109,9 +116,12 @@ extension PhotonManager: HwManager
                     photon.delegate = self
                     self.photons[name] = photon
                     self.deviceDelegate?.deviceFound(name: name)
+                    let promise = photon.refresh()
+                    promises.append(promise)
                 }
             }
         }
+        return when(fulfilled: promises)
     }
     
     
