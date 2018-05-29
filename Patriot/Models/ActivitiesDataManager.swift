@@ -18,14 +18,14 @@ class ActivitiesDataManager
     {
         print("ActivitiesDataManager init")
         self.hardware = hardware
-        activities.append(Activity(name: "booth", percent: 0))
-        activities.append(Activity(name: "coffee", percent: 0))
-        activities.append(Activity(name: "computer", percent: 0))
-        activities.append(Activity(name: "ronslight", percent: 0))
-        activities.append(Activity(name: "shelleyslight", percent: 0))
-        activities.append(Activity(name: "piano", percent: 0))
-        activities.append(Activity(name: "tv", percent: 0))
-        activities.append(Activity(name: "dishes", percent: 0))
+//        activities.append(Activity(name: "booth", percent: 0))
+//        activities.append(Activity(name: "coffee", percent: 0))
+//        activities.append(Activity(name: "computer", percent: 0))
+//        activities.append(Activity(name: "ronslight", percent: 0))
+//        activities.append(Activity(name: "shelleyslight", percent: 0))
+//        activities.append(Activity(name: "piano", percent: 0))
+//        activities.append(Activity(name: "tv", percent: 0))
+//        activities.append(Activity(name: "dishes", percent: 0))
     }
 
 
