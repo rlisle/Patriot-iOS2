@@ -17,12 +17,11 @@ protocol HwManager: class
 {
     var deviceDelegate:         DeviceNotifying?    { get set }
     var activityDelegate:       ActivityNotifying?  { get set }
-    var photons:                [String: Photon]    { get }
     var eventName:              String              { get }
     var deviceNames:            Set<String>         { get }
     var supportedNames:         Set<String>         { get }
     var currentActivities:      [String: Int]       { get }
     
-    func discoverDevices(completion: @escaping (Error?) -> Void)
     func sendCommand(activity: String, percent: Int, completion: @escaping (Error?) -> Void)
+    func sendCommand(device: String, percent: Int, completion: @escaping (Error?) -> Void)
 }

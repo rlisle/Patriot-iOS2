@@ -39,17 +39,22 @@ enum ParticleSDKError : Error
 
 class PhotonManager: NSObject
 {
-    var isLoggedIn = false
-
     var subscribeHandler:  Any?                 // Particle.io subscribe handle
-    var photonDelegate:    PhotonNotifying?
-    var deviceDelegate:    DeviceNotifying?
-    var activityDelegate:  ActivityNotifying?
+    var deviceDelegate:    DeviceNotifying?     // Reports changes to devices
+    var activityDelegate:  ActivityNotifying?   // Reports changes to activities
 
+    var isLoggedIn = false
+    
     var photons: [String: Photon] = [: ]   // All the particle devices attached to logged-in user's account
     let eventName          = "patriot"
+    
+    //TODO: make this a calculated property using photons collection
     var deviceNames        = Set<String>()      // Names exposed by the "Devices" variables
+    
+    //TODO: make this a calculated property using photons collection
     var supportedNames     = Set<String>()      // Activity names exposed by the "Supported" variables
+    
+    //TODO: make this a calculated property using photons collection
     var currentActivities:  [String: Int] = [: ] // List of currently on activities reported by Master
     
 }
@@ -91,20 +96,6 @@ extension PhotonManager: LoggingIn
 
 extension PhotonManager: HwManager
 {
-    //TODO: is this ever needed?
-    func discoverDevices(completion: @escaping (Error?) -> Void)
-    {
-        print("Discover devices")
-        if !isLoggedIn {
-            print("   not logged in")
-            completion(ParticleSDKError.notLoggedIn)
-            return
-        }
-        
-        getAllPhotonDevices(completion: completion)
-    }
-    
-    
     /**
      * Locate all the particle.io devices
      */
@@ -170,10 +161,22 @@ extension PhotonManager: HwManager
 
     func sendCommand(activity: String, percent: Int, completion: @escaping (Error?) -> Void)
     {
-        print("sendCommand: \(activity) percent: \(percent)")
-        let data = activity + ":" + String(percent)
-        print("Publishing event: \(eventName) data: \(data)")
-        ParticleCloud.sharedInstance().publishEvent(withName: eventName, data: data, isPrivate: true, ttl: 60)
+        print("sendCommand to activity: \(activity) percent: \(percent)")
+        let event = activity + ":" + String(percent)
+        publish(event: event, completion: completion)
+    }
+
+    func sendCommand(device: String, percent: Int, completion: @escaping (Error?) -> Void)
+    {
+        print("sendCommand to device: \(device) percent: \(percent)")
+        let event = device + ":" + String(percent)
+        publish(event: event, completion: completion)
+    }
+
+    func publish(event: String, completion: @escaping (Error?) -> Void)
+    {
+        print("Publishing event: \(eventName) : \(event)")
+        ParticleCloud.sharedInstance().publishEvent(withName: eventName, data: event, isPrivate: true, ttl: 60)
         { (error:Error?) in
             if let e = error
             {
@@ -267,7 +270,7 @@ extension PhotonManager
 }
 
 
-// These methods report the capabilities of each photon asynchronously
+// These methods receive the capabilities of each photon asynchronously
 extension PhotonManager: PhotonNotifying
 {
     func device(named: String, hasDevices: Set<String>)
