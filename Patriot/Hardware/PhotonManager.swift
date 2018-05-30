@@ -16,7 +16,7 @@
 //  after initialization by subscribing to particle or MQTT events.
 //
 //  Subscribing to particle events will also allow detecting new Photons
-//  as they come online and start issuing 'alive' events.
+//  as they come online.
 //
 //  This file uses the Particle SDK: 
 //      https://docs.particle.io/reference/ios/#common-tasks
@@ -28,13 +28,6 @@
 import Foundation
 import Particle_SDK
 import PromiseKit
-
-protocol PhotonDelegate
-{
-    func device(named: String, hasDevices: Set<String>)
-    func device(named: String, supports: Set<String>)
-    func device(named: String, hasSeenActivities: [String: Int])
-}
 
 enum ParticleSDKError : Error
 {
@@ -48,7 +41,8 @@ class PhotonManager: NSObject
 {
     var isLoggedIn = false
 
-    var subscribeHandler:  Any?
+    var subscribeHandler:  Any?                 // Particle.io subscribe handle
+    var photonDelegate:    PhotonNotifying?
     var deviceDelegate:    DeviceNotifying?
     var activityDelegate:  ActivityNotifying?
 
@@ -59,6 +53,41 @@ class PhotonManager: NSObject
     var currentActivities:  [String: Int] = [: ] // List of currently on activities reported by Master
     
 }
+
+extension PhotonManager: LoggingIn
+{
+    /**
+     * Login to the particle.io account
+     * The particle SDK will use the returned token in subsequent calls.
+     * We don't have to save it.
+     */
+    func login(user: String, password: String, completion: @escaping (Error?) -> Void)
+    {
+        if !isLoggedIn {
+            
+            ParticleCloud.sharedInstance().login(withUser: user, password: password) { (error) in
+                if error == nil {
+                    self.isLoggedIn = true
+                    self.getAllPhotonDevices(completion: completion)
+                    
+                } else {
+                    print ("Error logging in: \(error!)")
+                    self.isLoggedIn = false
+                    completion(error)
+                }
+            }
+        }
+    }
+    
+    func logout()
+    {
+        ParticleCloud.sharedInstance().logout()
+        isLoggedIn = false
+    }
+    
+}
+
+
 
 extension PhotonManager: HwManager
 {
@@ -157,8 +186,8 @@ extension PhotonManager: HwManager
     func subscribeToEvents()
     {
         subscribeHandler = ParticleCloud.sharedInstance().subscribeToMyDevicesEvents(withPrefix: eventName, handler: { (event: ParticleEvent?, error: Error?) in
-            if let _ = error {
-                print("Error subscribing to events")
+            if let error = error {
+                print("Error subscribing to events: \(error)")
             }
             else
             {
@@ -183,39 +212,6 @@ extension PhotonManager: HwManager
     }
 }
 
-
-extension PhotonManager: LoggingIn
-{
-    /**
-     * Login to the particle.io account
-     * The particle SDK will use the returned token in subsequent calls.
-     * We don't have to save it.
-     */
-    func login(user: String, password: String, completion: @escaping (Error?) -> Void)
-    {
-        if !isLoggedIn {
-            
-            ParticleCloud.sharedInstance().login(withUser: user, password: password) { (error) in
-                if error == nil {
-                    self.isLoggedIn = true
-                    self.getAllPhotonDevices(completion: completion)
-
-                } else {
-                    print ("Error logging in: \(error!)")
-                    self.isLoggedIn = false
-                    completion(error)
-                }
-            }
-        }
-    }
-    
-    func logout()
-    {
-        ParticleCloud.sharedInstance().logout()
-        isLoggedIn = false
-    }
-
-}
 
 extension PhotonManager
 {
@@ -272,7 +268,7 @@ extension PhotonManager
 
 
 // These methods report the capabilities of each photon asynchronously
-extension PhotonManager: PhotonDelegate
+extension PhotonManager: PhotonNotifying
 {
     func device(named: String, hasDevices: Set<String>)
     {

@@ -17,6 +17,7 @@
 		E4362E3020A9A919006C1405 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4362E2F20A9A919006C1405 /* Assets.xcassets */; };
 		E4362E3320A9A919006C1405 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4362E3120A9A919006C1405 /* LaunchScreen.storyboard */; };
 		E4362E3E20A9A91A006C1405 /* PatriotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4362E3D20A9A91A006C1405 /* PatriotTests.swift */; };
+		E46D2A3D20BEECC50084C576 /* PhotonNotifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46D2A3C20BEECC50084C576 /* PhotonNotifying.swift */; };
 		E4C283EA20BB554E00C98A43 /* Photon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283E720BB554E00C98A43 /* Photon.swift */; };
 		E4C283EB20BB554E00C98A43 /* ActivityNotifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283E820BB554E00C98A43 /* ActivityNotifying.swift */; };
 		E4C283EC20BB554E00C98A43 /* DeviceNotifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283E920BB554E00C98A43 /* DeviceNotifying.swift */; };
@@ -58,6 +59,7 @@
 		E4362E3920A9A91A006C1405 /* PatriotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatriotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4362E3D20A9A91A006C1405 /* PatriotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatriotTests.swift; sourceTree = "<group>"; };
 		E4362E3F20A9A91A006C1405 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E46D2A3C20BEECC50084C576 /* PhotonNotifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotonNotifying.swift; sourceTree = "<group>"; };
 		E4C283E720BB554E00C98A43 /* Photon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photon.swift; sourceTree = "<group>"; };
 		E4C283E820BB554E00C98A43 /* ActivityNotifying.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityNotifying.swift; sourceTree = "<group>"; };
 		E4C283E920BB554E00C98A43 /* DeviceNotifying.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceNotifying.swift; sourceTree = "<group>"; };
@@ -191,14 +193,23 @@
 			path = PatriotTests;
 			sourceTree = "<group>";
 		};
+		E46D2A3B20BEDE2B0084C576 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				E4C283E820BB554E00C98A43 /* ActivityNotifying.swift */,
+				E4C283E920BB554E00C98A43 /* DeviceNotifying.swift */,
+				E4C283ED20BB55CA00C98A43 /* HwController.swift */,
+				E4C283EE20BB55CA00C98A43 /* HwManager.swift */,
+				87162D9920A9BACE00861C89 /* LoggingIn.swift */,
+				E46D2A3C20BEECC50084C576 /* PhotonNotifying.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		E4C283E220BB534900C98A43 /* Hardware */ = {
 			isa = PBXGroup;
 			children = (
-				E4C283ED20BB55CA00C98A43 /* HwController.swift */,
-				E4C283EE20BB55CA00C98A43 /* HwManager.swift */,
-				E4C283E820BB554E00C98A43 /* ActivityNotifying.swift */,
-				E4C283E920BB554E00C98A43 /* DeviceNotifying.swift */,
-				87162D9920A9BACE00861C89 /* LoggingIn.swift */,
+				E46D2A3B20BEDE2B0084C576 /* Protocols */,
 				E4C283E720BB554E00C98A43 /* Photon.swift */,
 				E4C283F120BB561A00C98A43 /* PhotonManager.swift */,
 			);
@@ -364,6 +375,7 @@
 				E4C93C4820B6DF1600FBA4FD /* SettingsStore.swift in Sources */,
 				E4C283F420BC136100C98A43 /* AppFactory.swift in Sources */,
 				E4C283F020BB55CA00C98A43 /* HwManager.swift in Sources */,
+				E46D2A3D20BEECC50084C576 /* PhotonNotifying.swift in Sources */,
 				E4C283EF20BB55CA00C98A43 /* HwController.swift in Sources */,
 				E4C283FA20BC27DB00C98A43 /* ActivityModel.swift in Sources */,
 				8781D5F620AA4D4200E74AEE /* UserPasswordViewController.swift in Sources */,

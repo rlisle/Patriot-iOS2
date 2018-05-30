@@ -45,7 +45,7 @@ class Photon: HwController
     var activities: [String: Int]?      // Optional list of current activities and state
     var publish: String                 // Publish event name that this device monitors
     
-    var delegate: PhotonDelegate?       // Notifies manager when status changes
+    var delegate: PhotonNotifying?      // Notifies manager when status changes
     
 
     internal let particleDevice: ParticleDevice! // Reference to Particle-SDK device object
