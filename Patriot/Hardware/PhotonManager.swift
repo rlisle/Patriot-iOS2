@@ -205,7 +205,7 @@ extension PhotonManager: HwManager
                         }
                         else
                         {
-//                            print("Event data is not a valid number")
+                            print("Event data is not a valid number")
                         }
                     }
                     
@@ -213,60 +213,6 @@ extension PhotonManager: HwManager
             }
         })
     }
-}
-
-
-extension PhotonManager
-{
-//    private func parseSupportedNames(_ supported: String) -> Set<String>
-//    {
-//        print("6. Parsing supported names: \(supported)")
-//        var newSupported: Set<String> = []
-//        let items = supported.components(separatedBy: ",")
-//        for item in items
-//        {
-//            let lcItem = item.localizedLowercase
-//            print("7. New supported = \(lcItem)")
-//            newSupported.insert(lcItem)
-//        }
-//        
-//        return newSupported
-//    }
-    
-    
-//    func refreshCurrentActivities()
-//    {
-//        print("8. refreshCurrentActivities")
-//        currentActivities = [: ]
-//        for (name, photon) in photons
-//        {
-//            let particleDevice = photon.particleDevice
-//            if particleDevice?.variables["Activities"] != nil
-//            {
-//                print("9.  reading Activities variable from \(name)")
-//                particleDevice?.getVariable("Activities") { (result: Any?, error: Error?) in
-//                    if error == nil
-//                    {
-//                        if let activities = result as? String, activities != ""
-//                        {
-//                            print("10. Activities = \(activities)")
-//                            let items = activities.components(separatedBy: ",")
-//                            for item in items
-//                            {
-//                                let parts = item.components(separatedBy: ":")
-//                                self.currentActivities[parts[0]] = parts[1]
-////                                self.activityDelegate?.activityChanged(event: item)
-//                            }
-//                        }
-//                    } else {
-//                        print("Error reading Supported variable. Skipping this device.")
-//                    }
-//                    print("11. Updated Supported names = \(self.supportedNames)")
-//                    self.activityDelegate?.supportedListChanged()
-//                }
-//            }
-//        }
-//    }
 }
 
 
