@@ -135,7 +135,7 @@ extension PhotonManager: HwManager
                     let photon = Photon(device: device)
                     photon.delegate = self
                     self.photons[name] = photon
-                    self.deviceDelegate?.deviceFound(name: name)
+                    //self.deviceDelegate?.deviceFound(name: name) No, this call is for devices, not photons now.
                     let promise = photon.refresh()
                     promises.append(promise)
                 }

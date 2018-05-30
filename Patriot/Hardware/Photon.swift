@@ -24,17 +24,6 @@ import Particle_SDK
 import PromiseKit
 
 
-enum PhotonError : Error
-{
-    case DeviceVariable
-    case SupportedVariable
-    case ActivitiesVariable
-    case PublishVariable
-    case ReadVariable
-    case unknown
-}
-
-
 // Public interface
 class Photon: HwController
 {
@@ -67,7 +56,7 @@ class Photon: HwController
 
     /**
      * Refresh is expected to be called once after init
-     * or in the unlikely event that the Photon reboots.
+     * after delegate is set, etc.
      */
     func refresh() -> Promise<Void>
     {
@@ -81,7 +70,7 @@ class Photon: HwController
     }
 }
 
-extension Photon
+extension Photon    // Devices
 {
     func refreshDevices() -> Promise<Void>
     {
@@ -109,8 +98,10 @@ extension Photon
         }
         delegate?.device(named: self.name, hasDevices: devices!)
     }
-    
-    
+}
+
+extension Photon    // Supported
+{
     func refreshSupported() -> Promise<Void>
     {
         supported = nil
@@ -138,8 +129,10 @@ extension Photon
         print("calling device \(self.name) supports \(supported!)")
         delegate?.device(named: self.name, supports: supported!)
     }
-    
+}
 
+extension Photon        // Activities
+{
     func refreshActivities() -> Promise<Void>
     {
         activities = nil
@@ -169,8 +162,10 @@ extension Photon
         }
         delegate?.device(named: self.name, hasSeenActivities: activities!)
     }
+}
 
-
+extension Photon        // Read variables
+{
     func readPublishName() -> Promise<Void>
     {
         return readVariable("PublishName")

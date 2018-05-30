@@ -18,6 +18,7 @@
 		E4362E3320A9A919006C1405 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4362E3120A9A919006C1405 /* LaunchScreen.storyboard */; };
 		E4362E3E20A9A91A006C1405 /* PatriotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4362E3D20A9A91A006C1405 /* PatriotTests.swift */; };
 		E46D2A3D20BEECC50084C576 /* PhotonNotifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46D2A3C20BEECC50084C576 /* PhotonNotifying.swift */; };
+		E46D2A3F20BEFD7B0084C576 /* PhotonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46D2A3E20BEFD7B0084C576 /* PhotonError.swift */; };
 		E4C283EA20BB554E00C98A43 /* Photon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283E720BB554E00C98A43 /* Photon.swift */; };
 		E4C283EB20BB554E00C98A43 /* ActivityNotifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283E820BB554E00C98A43 /* ActivityNotifying.swift */; };
 		E4C283EC20BB554E00C98A43 /* DeviceNotifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283E920BB554E00C98A43 /* DeviceNotifying.swift */; };
@@ -60,6 +61,7 @@
 		E4362E3D20A9A91A006C1405 /* PatriotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatriotTests.swift; sourceTree = "<group>"; };
 		E4362E3F20A9A91A006C1405 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E46D2A3C20BEECC50084C576 /* PhotonNotifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotonNotifying.swift; sourceTree = "<group>"; };
+		E46D2A3E20BEFD7B0084C576 /* PhotonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotonError.swift; sourceTree = "<group>"; };
 		E4C283E720BB554E00C98A43 /* Photon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photon.swift; sourceTree = "<group>"; };
 		E4C283E820BB554E00C98A43 /* ActivityNotifying.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityNotifying.swift; sourceTree = "<group>"; };
 		E4C283E920BB554E00C98A43 /* DeviceNotifying.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceNotifying.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				E46D2A3B20BEDE2B0084C576 /* Protocols */,
 				E4C283E720BB554E00C98A43 /* Photon.swift */,
 				E4C283F120BB561A00C98A43 /* PhotonManager.swift */,
+				E46D2A3E20BEFD7B0084C576 /* PhotonError.swift */,
 			);
 			path = Hardware;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				E46D2A3D20BEECC50084C576 /* PhotonNotifying.swift in Sources */,
 				E4C283EF20BB55CA00C98A43 /* HwController.swift in Sources */,
 				E4C283FA20BC27DB00C98A43 /* ActivityModel.swift in Sources */,
+				E46D2A3F20BEFD7B0084C576 /* PhotonError.swift in Sources */,
 				8781D5F620AA4D4200E74AEE /* UserPasswordViewController.swift in Sources */,
 				E4C283F620BC257400C98A43 /* ActivitiesViewController.swift in Sources */,
 			);
