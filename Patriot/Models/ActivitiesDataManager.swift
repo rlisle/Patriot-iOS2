@@ -39,6 +39,7 @@ class ActivitiesDataManager
     func toggleActivity(at: Int)
     {
         let isOn = isActivityOn(at: at)
+        print("toggleActivity to \(isOn ? 0 : 100)")
         setActivity(at: at, percent: isOn ? 0 : 100)
     }
 

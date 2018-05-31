@@ -73,6 +73,7 @@ extension PhotonManager: LoggingIn
             ParticleCloud.sharedInstance().login(withUser: user, password: password) { (error) in
                 if error == nil {
                     self.isLoggedIn = true
+                    self.subscribeToEvents()
                     self.getAllPhotonDevices(completion: completion)
                     
                 } else {
@@ -195,7 +196,7 @@ extension PhotonManager: HwManager
             else
             {
                 DispatchQueue.main.async(execute: {
-                    //print("Subscribe: received event with data \(String(describing: event?.data))")
+                    print("Subscribe: received event with data \(String(describing: event?.data))")
                     if let eventData = event?.data {
                         let splitArray = eventData.components(separatedBy: ":")
                         let name = splitArray[0].lowercased()
