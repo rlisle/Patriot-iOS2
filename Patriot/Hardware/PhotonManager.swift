@@ -202,7 +202,9 @@ extension PhotonManager: HwManager
                         let name = splitArray[0].lowercased()
                         if let percent: Int = Int(splitArray[1]), percent >= 0, percent <= 100
                         {
+                            //TODO: Currently can't tell if this is an activity or device
                             self.activityDelegate?.activityChanged(name: name, percent: percent)
+                            self.deviceDelegate?.deviceChanged(name: name, percent: percent)
                         }
                         else
                         {
