@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8ZA-Cm-BHV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8ZA-Cm-BHV">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -12,31 +12,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Devices-->
-        <scene sceneID="G8p-qb-dM9">
-            <objects>
-                <viewController storyboardIdentifier="I" id="K7C-m2-Uvo" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Iyf-ZY-KT8">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Devices Screen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXH-uc-vSz">
-                                <rect key="frame" x="128" y="323" width="119" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="mV5-uN-CiK"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Devices" image="DevicesTabBarIcon" id="RjU-eV-AWL"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kOK-ht-fKD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-967" y="-206"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Ma8-kz-Y4F">
             <objects>
@@ -50,13 +25,48 @@
                     </tabBar>
                     <connections>
                         <segue destination="X3M-aE-BNc" kind="relationship" relationship="viewControllers" id="G7f-UP-8of"/>
-                        <segue destination="K7C-m2-Uvo" kind="relationship" relationship="viewControllers" id="riu-oa-cDM"/>
+                        <segue destination="Q18-wK-C6R" kind="relationship" relationship="viewControllers" id="hjs-oz-crX"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="FZZ-WW-Kwy"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fXQ-dS-Rof" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1740" y="-206"/>
+        </scene>
+        <!--Devices-->
+        <scene sceneID="LtB-sm-DC3">
+            <objects>
+                <collectionViewController title="Devices" id="Q18-wK-C6R" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="uW9-UH-kxj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ljc-hN-Jkx">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="YKN-6r-ocL">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="Q18-wK-C6R" id="gdO-gk-GBX"/>
+                            <outlet property="delegate" destination="Q18-wK-C6R" id="SB5-e7-t5j"/>
+                        </connections>
+                    </collectionView>
+                    <tabBarItem key="tabBarItem" title="Devices" image="DevicesTabBarIcon" id="TiO-9l-6nO"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="re6-a0-62N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-967" y="-206"/>
         </scene>
         <!--Activities-->
         <scene sceneID="ZK1-rU-isR">
