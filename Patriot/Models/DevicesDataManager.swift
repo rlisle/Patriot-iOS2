@@ -21,7 +21,7 @@ class DevicesDataManager
         
         devices.append(Device(name: "office", percent: 0))
         
-        refresh(supported: hardware.deviceNames)
+        refresh(devices: hardware.deviceNames)
     }
 
 
@@ -31,20 +31,20 @@ class DevicesDataManager
     }
 
     
-    func toggleActivity(at: Int)
+    func toggleDevice(at: Int)
     {
-        let isOn = isActivityOn(at: at)
-        print("toggleActivity to \(isOn ? 0 : 100)")
-        setActivity(at: at, percent: isOn ? 0 : 100)
+        let isOn = isDeviceOn(at: at)
+        print("toggleDevice to \(isOn ? 0 : 100)")
+        setDevice(at: at, percent: isOn ? 0 : 100)
     }
 
     
-    func setActivity(at: Int, percent: Int)
+    func setDevice(at: Int, percent: Int)
     {
-        print("DM set activity at: \(at) to \(percent)")
-        activities[at].percent = percent
-        let name = activities[at].name
-        hardware.sendCommand(activity: name, percent: percent) { (error) in
+        print("DM set device at: \(at) to \(percent)")
+        devices[at].percent = percent
+        let name = devices[at].name
+        hardware.sendCommand(device: name, percent: percent) { (error) in
             if let error = error {
                 print("Send command error: \(error)")
             }
@@ -55,42 +55,42 @@ class DevicesDataManager
 
 //MARK: Helper Methods
 
-extension ActivitiesDataManager
+extension DevicesDataManager
 {
-    func refresh(supported: Set<String>)
+    func refresh(devices: Set<String>)
     {
-        print("refresh: \(supported)")
-        for name in supported
+        print("refresh: \(devices)")
+        for name in devices
         {
-            print("ActivitiesDM: Adding activity \(name)")
-            self.activities.append(Activity(name: name, percent: 0))
+            print("DevicesDM: Adding device \(name)")
+            self.devices.append(Device(name: name, percent: 0))
             
-            //TODO: determine actual initial activity state. It might be on.
+            //TODO: determine actual initial device state. It might be on.
             
         }
-        delegate?.supportedListChanged()
+        delegate?.deviceListChanged()
     }
 }
 
 
-extension ActivitiesDataManager: ActivityNotifying
+extension DevicesDataManager: DeviceNotifying
 {
-    func supportedListChanged()
+    func deviceListChanged()
     {
-        print("ActivitiesDataManager supportedListChanged")
-        let list = hardware.supportedNames
-        refresh(supported: list)
+        print("DevicesDataManager deviceListChanged")
+        let list = hardware.deviceNames
+        refresh(devices: list)
     }
 
 
-    func activityChanged(name: String, percent: Int)
+    func deviceChanged(name: String, percent: Int)
     {
-        print("ActivityDataManager: ActivityChanged: \(name)")
-        if let index = activities.index(where: {$0.name == name})
+        print("DeviceDataManager: DeviceChanged: \(name)")
+        if let index = devices.index(where: {$0.name == name})
         {
-            print("   index of activity = \(index)")
-            activities[index].percent = percent
+            print("   index of device = \(index)")
+            devices[index].percent = percent
         }
-        delegate?.activityChanged(name: name, percent: percent)
+        delegate?.deviceChanged(name: name, percent: percent)
     }
 }

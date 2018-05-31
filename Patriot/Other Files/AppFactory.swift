@@ -38,13 +38,13 @@ class AppFactory
         activitiesDataManager.delegate = viewController
     }
     
-    func configureDevices(viewController: ActivitiesViewController)
+    func configureDevices(viewController: DevicesViewController)
     {
-//        viewController.settings = settings
-//        let activitiesDataManager = ActivitiesDataManager(hardware: hwManager)
-//        viewController.dataManager = activitiesDataManager
-//        hwManager.activityDelegate = activitiesDataManager
-//        activitiesDataManager.delegate = viewController
+        viewController.settings = settings
+        let devicesDataManager = DevicesDataManager(hardware: hwManager)
+        viewController.dataManager = devicesDataManager
+        hwManager.deviceDelegate = devicesDataManager
+        devicesDataManager.delegate = viewController
     }
 
 }

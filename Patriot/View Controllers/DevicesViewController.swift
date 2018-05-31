@@ -43,7 +43,9 @@ class DevicesViewController: UICollectionViewController {
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataManager?.devices.count ?? 0
+        let numberOfDevices = dataManager?.devices.count ?? 0
+        print("Devices: number of items = \(numberOfDevices)")
+        return numberOfDevices
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
