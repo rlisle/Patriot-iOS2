@@ -11,6 +11,6 @@ import Foundation
 
 protocol DeviceNotifying: class
 {
-    func deviceFound(name: String)
-    func deviceLost(name: String)
+    func deviceListChanged()
+    func deviceChanged(name: String, percent: Int)
 }

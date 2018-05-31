@@ -1,38 +1,33 @@
 //
-//  ActivitiesDataManager.swift
+//  DevicesDataManager.swift
 //  Patriot
 //
-//  Created by Ron Lisle on 11/5/16.
-//  Copyright © 2016 Ron Lisle. All rights reserved.
+//  Created by Ron Lisle on 5/31/18.
+//  Copyright © 2018 Ron Lisle. All rights reserved.
 //
 
 import UIKit
 
-class ActivitiesDataManager
+class DevicesDataManager
 {
-    var activities:     [ Activity ] = []
+    var devices:        [ Device ] = []
     let hardware:       HwManager
-    weak var delegate:  ActivityNotifying?
+    weak var delegate:  DeviceNotifying?
     
     init(hardware: HwManager)
     {
-        print("ActivitiesDataManager init")
+        print("DevicesDataManager init")
         self.hardware = hardware
-//        activities.append(Activity(name: "booth", percent: 0))
-//        activities.append(Activity(name: "coffee", percent: 0))
-//        activities.append(Activity(name: "computer", percent: 0))
-//        activities.append(Activity(name: "ronslight", percent: 0))
-//        activities.append(Activity(name: "shelleyslight", percent: 0))
-//        activities.append(Activity(name: "piano", percent: 0))
-//        activities.append(Activity(name: "tv", percent: 0))
-//        activities.append(Activity(name: "dishes", percent: 0))
-        refresh(supported: hardware.supportedNames)
+        
+        devices.append(Device(name: "office", percent: 0))
+        
+        refresh(supported: hardware.deviceNames)
     }
 
 
-    func isActivityOn(at: Int) -> Bool
+    func isDeviceOn(at: Int) -> Bool
     {
-        return activities[at].percent > 0
+        return devices[at].percent > 0
     }
 
     
