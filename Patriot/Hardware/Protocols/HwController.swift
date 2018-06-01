@@ -17,9 +17,8 @@ import PromiseKit
 
 protocol HwController
 {
-    var devices: Set<String>?           { get }
-    var supported: Set<String>?         { get }
-    var activities: [String: Int]?      { get }
+    var devices: [DeviceInfo]           { get }
+    var activities: [ActivityInfo]      { get }
     var publish: String                 { get }
     var name: String                    { get }
     init(device: ParticleDevice)

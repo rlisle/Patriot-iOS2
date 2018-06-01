@@ -10,7 +10,6 @@ import Foundation
 
 protocol PhotonNotifying
 {
-    func device(named: String, hasDevices: Set<String>)
-    func device(named: String, supports: Set<String>)
-    func device(named: String, hasSeenActivities: [String: Int])
+    func device(named: String, hasDevices: [DeviceInfo])
+    func device(named: String, hasActivities: [ActivityInfo])
 }

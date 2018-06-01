@@ -18,10 +18,9 @@ protocol HwManager: class
     var deviceDelegate:         DeviceNotifying?    { get set }
     var activityDelegate:       ActivityNotifying?  { get set }
     var eventName:              String              { get }
-    var deviceNames:            Set<String>         { get }
-    var supportedNames:         Set<String>         { get }
-    var currentActivities:      [String: Int]       { get }
+    var devices:                [DeviceInfo]        { get }
+    var activities:             [ActivityInfo]      { get }
     
-    func sendCommand(activity: String, percent: Int, completion: @escaping (Error?) -> Void)
+    func sendCommand(activity: String, isActive: Bool, completion: @escaping (Error?) -> Void)
     func sendCommand(device: String, percent: Int, completion: @escaping (Error?) -> Void)
 }

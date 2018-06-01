@@ -48,15 +48,9 @@ class PhotonManager: NSObject
     var photons: [String: Photon] = [: ]   // All the particle devices attached to logged-in user's account
     let eventName          = "patriot"
     
-    //TODO: make this a calculated property using photons collection
-    var deviceNames        = Set<String>()      // Names exposed by the "Devices" variables
-    
-    //TODO: make this a calculated property using photons collection
-    var supportedNames     = Set<String>()      // Activity names exposed by the "Supported" variables
-    
-    //TODO: make this a calculated property using photons collection
-    var currentActivities:  [String: Int] = [: ] // List of currently on activities reported by Master
-    
+    //TODO: make these calculated properties using aggregtion of photons collection
+    var devices: [DeviceInfo] = []
+    var activities:  [ActivityInfo] = []
 }
 
 extension PhotonManager: LoggingIn
@@ -104,14 +98,14 @@ extension PhotonManager: HwManager
     {
         print("getAllPhotonDevices")
         ParticleCloud.sharedInstance().getDevices {
-            (devices: [ParticleDevice]?, error: Error?) in
+            (photons: [ParticleDevice]?, error: Error?) in
             
-            guard devices != nil && error == nil else {
+            guard photons != nil && error == nil else {
                 print("getAllPhotonDevices error: \(error!)")
                 completion(error)
                 return
             }
-            self.addAllPhotonsToCollection(devices: devices!)
+            self.addAllPhotonsToCollection(photonDevices: photons!)
                 .then { _ -> Void in
                     print("All photons added to collection")
                     self.activityDelegate?.supportedListChanged()
@@ -121,22 +115,21 @@ extension PhotonManager: HwManager
     }
 
 
-    func addAllPhotonsToCollection(devices: [ParticleDevice]) -> Promise<Void>
+    func addAllPhotonsToCollection(photonDevices: [ParticleDevice]) -> Promise<Void>
     {
         print("addAllPhotonsToCollection")
         self.photons = [: ]
         var promises = [Promise<Void>]()
-        for device in devices
+        for photonDevice in photonDevices
         {
-            if isValidPhoton(device)
+            if isValidPhoton(photonDevice)
             {
-                if let name = device.name?.lowercased()
+                if let name = photonDevice.name?.lowercased()
                 {
                     print("Adding photon \(name) to collection")
-                    let photon = Photon(device: device)
+                    let photon = Photon(device: photonDevice)
                     photon.delegate = self
                     self.photons[name] = photon
-                    //self.deviceDelegate?.deviceFound(name: name) No, this call is for devices, not photons now.
                     let promise = photon.refresh()
                     promises.append(promise)
                 }
@@ -203,7 +196,7 @@ extension PhotonManager: HwManager
                         if let percent: Int = Int(splitArray[1]), percent >= 0, percent <= 100
                         {
                             //TODO: Currently can't tell if this is an activity or device
-                            self.activityDelegate?.activityChanged(name: name, percent: percent)
+                            self.activityDelegate?.activityChanged(name: name, isActive: percent != 0)
                             self.deviceDelegate?.deviceChanged(name: name, percent: percent)
                         }
                         else
@@ -222,24 +215,18 @@ extension PhotonManager: HwManager
 // These methods receive the capabilities of each photon asynchronously
 extension PhotonManager: PhotonNotifying
 {
-    func device(named: String, hasDevices: Set<String>)
+    func device(named: String, hasDevices: [DeviceInfo])
     {
         print("device named \(named) hasDevices \(hasDevices)")
-        deviceNames = deviceNames.union(hasDevices)
+        //TODO: remove duplicates
+        devices += hasDevices
     }
     
     
-    func device(named: String, supports: Set<String>)
+    func device(named: String, hasActivities: [ActivityInfo])
     {
-        print("device named \(named) supports \(supports)")
-        supportedNames = supportedNames.union(supports)
-    }
-    
-    
-    func device(named: String, hasSeenActivities: [String: Int])
-    {
-        print("device named \(named) hasSeenActivities \(hasSeenActivities)")
-        hasSeenActivities.forEach { (k,v) in currentActivities[k] = v }
+        print("device named \(named) hasActivities \(hasActivities)")
+        activities += hasActivities
     }
 }
 

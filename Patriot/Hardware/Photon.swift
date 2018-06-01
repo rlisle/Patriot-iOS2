@@ -7,10 +7,22 @@
 //  The photon will be interrogated to identify the devices and activities
 //  that it supports:
 //
+//  DeviceInfo is a struct containing:
+//      name: String    the name of the device
+//      type: enum      the device type
+//      percent: Int    the current device percent value
+//  ActivityInfo is a struct containing info about each activity:
+//      name: String    the name of the activity
+//      isActive: Bool  the current percent value (0=off, 100=on)
+//
+//  TODO: replace these with devices and activity collections
 //      deviceNames     is a list of all the devices exposed on the Photon
 //      supportedNames  is a list of all activities supported by the Photon
 //      activities      is a list exposed by some Photons tracking current
 //                      activity state based on what it has heard.
+//
+//      value(name: String) return the current device/activity value
+//      type(name: String) returns the device type
 //
 //  This file uses the Particle SDK:
 //      https://docs.particle.io/reference/ios/#common-tasks
@@ -24,14 +36,38 @@ import Particle_SDK
 import PromiseKit
 
 
+enum DeviceType {
+    case Unknown
+    case Fan
+    case Light
+    case Motor
+    case NCD8Relay  //placeholder
+    case Presence
+    case Relay
+    case Switch
+    case TempHumidity
+    case Ultrasonic
+}
+
+struct DeviceInfo {
+    var name: String
+    var type: DeviceType
+    var percent: Int
+}
+
+struct ActivityInfo {
+    var name: String
+    var isActive: Bool
+}
+
+
 // Public interface
 class Photon: HwController
 {
     let uninitializedString = "uninitialized"
     
-    var devices: Set<String>?           // Cached list of device names exposed by Photon
-    var supported: Set<String>?         // Cached list of supported activities
-    var activities: [String: Int]?      // Optional list of current activities and state
+    var devices: [DeviceInfo] = []      // Cached list of device names exposed by Photon
+    var activities: [ActivityInfo] = [] // Optional list of current activities and state
     var publish: String                 // Publish event name that this device monitors
     
     var delegate: PhotonNotifying?      // Notifies manager when status changes
@@ -64,7 +100,6 @@ class Photon: HwController
         let publishPromise = readPublishName()
         let devicesPromise = refreshDevices()
         let supportedPromise = self.refreshSupported()
-        let activitiesPromise = self.refreshActivities()
         let promises = [ publishPromise, devicesPromise, supportedPromise, activitiesPromise ]
         return when(fulfilled: promises)
     }
@@ -74,7 +109,7 @@ extension Photon    // Devices
 {
     func refreshDevices() -> Promise<Void>
     {
-        devices = nil
+        devices = []
         return readVariable("Devices")
         .then { result -> Void in
             self.devices = []
@@ -89,25 +124,25 @@ extension Photon    // Devices
         guard items.count > 0 else {
             return
         }
-        devices = Set<String>()
         for item in items
         {
             let itemComponents = item.components(separatedBy: ":")
             let lcDevice = itemComponents[0].localizedLowercase
-            devices?.insert(lcDevice)
+            //TODO: get actual device type & percent
+            let deviceInfo = DeviceInfo(name: lcDevice, type: .Light, percent: 0)
+            devices.append(deviceInfo)
         }
-        delegate?.device(named: self.name, hasDevices: devices!)
+        delegate?.device(named: self.name, hasDevices: devices)
     }
 }
 
-extension Photon    // Supported
+extension Photon    // Activities
 {
     func refreshSupported() -> Promise<Void>
     {
-        supported = nil
+        activities = []
         return readVariable("Supported")
         .then { result -> Void in
-            self.supported = []
             self.parseSupported(result!)
         }
     }
@@ -120,47 +155,14 @@ extension Photon    // Supported
         guard items.count > 0 else {
             return
         }
-        supported = Set<String>()
         for item in items
         {
-            let lcSupported = item.localizedLowercase
-            supported?.insert(lcSupported)
+            let lcActivity = item.localizedLowercase
+            let activityInfo = ActivityInfo(name: lcActivity, isActive: false)
+            activities.append(activityInfo)
         }
-        print("calling device \(self.name) supports \(supported!)")
-        delegate?.device(named: self.name, supports: supported!)
-    }
-}
-
-extension Photon        // Activities
-{
-    func refreshActivities() -> Promise<Void>
-    {
-        activities = nil
-        return readVariable("Activities")
-        .then { result -> Void in
-            self.activities = [:]
-            if let result = result, result != "" {
-                self.parseActivities(result)
-            }
-        }
-    }
-    
-    
-    private func parseActivities(_ activitiesString: String)
-    {
-        let items = activitiesString.components(separatedBy: ",")
-        guard items.count > 0 else {
-            return
-        }
-        activities = [: ]
-        for item in items
-        {
-            let itemComponents = item.components(separatedBy: ":")
-            let lcActivity = itemComponents[0].localizedLowercase
-            let lcValue = itemComponents[1].lowercased()
-            activities![lcActivity] = Int(lcValue) ?? 0
-        }
-        delegate?.device(named: self.name, hasSeenActivities: activities!)
+        print("calling device \(self.name) hasActivities \(activities)")
+        delegate?.device(named: self.name, hasActivities: activities)
     }
 }
 
