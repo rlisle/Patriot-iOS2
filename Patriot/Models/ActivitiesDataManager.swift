@@ -99,22 +99,3 @@ extension ActivitiesDataManager: ActivityNotifying
         delegate?.activityChanged(name: name, percent: percent)
     }
 }
-
-
-extension ActivitiesDataManager: DeviceNotifying
-{
-    func deviceFound(name: String)
-    {
-        print("Device found: \(name)")
-        //Currently not really doing anything with this.
-        //This will become important once we allow the app to 
-        //configure/program device activites
-    }
-    
-    
-    func deviceLost(name: String)
-    {
-        print("Device lost: \(name)")
-        //Ditto above
-    }
-}
