@@ -9,11 +9,11 @@
 //
 //  When a new device is found, it will be added to the photons collection
 //  and a delegate called.
-//  This is the anticipated way of updating displays, etc.
 //
 //  The current activity state will be gleaned from the exposed Activities
 //  properties of one or more Photons initially, but then tracked directly
 //  after initialization by subscribing to particle or MQTT events.
+//  TODO: convert to using the value() function
 //
 //  Subscribing to particle events will also allow detecting new Photons
 //  as they come online.
@@ -28,14 +28,6 @@
 import Foundation
 import Particle_SDK
 import PromiseKit
-
-enum ParticleSDKError : Error
-{
-    case invalidUserPassword
-    case invalidToken
-    case notLoggedIn
-}
-
 
 class PhotonManager: NSObject
 {
@@ -108,7 +100,7 @@ extension PhotonManager: HwManager
             self.addAllPhotonsToCollection(photonDevices: photons!)
                 .then { _ -> Void in
                     print("All photons added to collection")
-                    self.activityDelegate?.supportedListChanged()
+                    self.activityDelegate?.activitiesChanged()
                     completion(error)
             }
         }
@@ -153,10 +145,10 @@ extension PhotonManager: HwManager
         return photon
     }
 
-    func sendCommand(activity: String, percent: Int, completion: @escaping (Error?) -> Void)
+    func sendCommand(activity: String, isActive: Bool, completion: @escaping (Error?) -> Void)
     {
-        print("sendCommand to activity: \(activity) percent: \(percent)")
-        let event = activity + ":" + String(percent)
+        print("sendCommand to activity: \(activity) isActive: \(isActive)")
+        let event = activity + ":" + (isActive ? "100" : "0")
         publish(event: event, completion: completion)
     }
 

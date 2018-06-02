@@ -2,24 +2,16 @@
 //  Photon.swift
 //  Patriot
 //
-//  This class provides the interface to a Photon device.
+//  This class provides the interface to a Photon microcontroller.
 //
-//  The photon will be interrogated to identify the devices and activities
-//  that it supports:
+//  The Photon will be interrogated to identify the devices and activities
+//  that it implements using the published variables:
 //
-//  DeviceInfo is a struct containing:
-//      name: String    the name of the device
-//      type: enum      the device type
-//      percent: Int    the current device percent value
-//  ActivityInfo is a struct containing info about each activity:
-//      name: String    the name of the activity
-//      isActive: Bool  the current percent value (0=off, 100=on)
-//
-//  TODO: replace these with devices and activity collections
 //      deviceNames     is a list of all the devices exposed on the Photon
 //      supportedNames  is a list of all activities supported by the Photon
 //      activities      is a list exposed by some Photons tracking current
 //                      activity state based on what it has heard.
+//                      TODO: switch to using the values function.
 //
 //      value(name: String) return the current device/activity value
 //      type(name: String) returns the device type
@@ -36,32 +28,6 @@ import Particle_SDK
 import PromiseKit
 
 
-enum DeviceType {
-    case Unknown
-    case Fan
-    case Light
-    case Motor
-    case NCD8Relay  //placeholder
-    case Presence
-    case Relay
-    case Switch
-    case TempHumidity
-    case Ultrasonic
-}
-
-struct DeviceInfo {
-    var name: String
-    var type: DeviceType
-    var percent: Int
-}
-
-struct ActivityInfo {
-    var name: String
-    var isActive: Bool
-}
-
-
-// Public interface
 class Photon: HwController
 {
     let uninitializedString = "uninitialized"
@@ -91,8 +57,7 @@ class Photon: HwController
     }
 
     /**
-     * Refresh is expected to be called once after init
-     * after delegate is set, etc.
+     * Refresh is expected to be called once after init and delegate is set
      */
     func refresh() -> Promise<Void>
     {
@@ -100,7 +65,7 @@ class Photon: HwController
         let publishPromise = readPublishName()
         let devicesPromise = refreshDevices()
         let supportedPromise = self.refreshSupported()
-        let promises = [ publishPromise, devicesPromise, supportedPromise, activitiesPromise ]
+        let promises = [ publishPromise, devicesPromise, supportedPromise ]
         return when(fulfilled: promises)
     }
 }
@@ -112,7 +77,6 @@ extension Photon    // Devices
         devices = []
         return readVariable("Devices")
         .then { result -> Void in
-            self.devices = []
             self.parseDeviceNames(result!)
         }
     }

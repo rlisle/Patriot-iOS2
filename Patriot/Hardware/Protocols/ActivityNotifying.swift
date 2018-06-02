@@ -11,6 +11,6 @@ import Foundation
 
 protocol ActivityNotifying: class
 {
-    func supportedListChanged()
+    func activitiesChanged()
     func activityChanged(name: String, isActive: Bool)
 }

@@ -21,7 +21,7 @@ class DevicesDataManager
         
         devices.append(Device(name: "office", percent: 0))
         
-        refresh(devices: hardware.deviceNames)
+        refresh(devices: hardware.devices)
     }
 
 
@@ -57,11 +57,12 @@ class DevicesDataManager
 
 extension DevicesDataManager
 {
-    func refresh(devices: Set<String>)
+    func refresh(devices: [DeviceInfo])
     {
         print("refresh: \(devices)")
-        for name in devices
+        for device in devices
         {
+            let name = device.name
             print("DevicesDM: Adding device \(name)")
             self.devices.append(Device(name: name, percent: 0))
             
@@ -78,7 +79,7 @@ extension DevicesDataManager: DeviceNotifying
     func deviceListChanged()
     {
         print("DevicesDataManager deviceListChanged")
-        let list = hardware.deviceNames
+        let list = hardware.devices
         refresh(devices: list)
     }
 

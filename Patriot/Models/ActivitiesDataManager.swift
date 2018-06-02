@@ -26,30 +26,30 @@ class ActivitiesDataManager
 //        activities.append(Activity(name: "piano", percent: 0))
 //        activities.append(Activity(name: "tv", percent: 0))
 //        activities.append(Activity(name: "dishes", percent: 0))
-        refresh(supported: hardware.supportedNames)
+        refresh(activities: hardware.activities)
     }
 
 
     func isActivityOn(at: Int) -> Bool
     {
-        return activities[at].percent > 0
+        return activities[at].isActive
     }
 
     
     func toggleActivity(at: Int)
     {
-        let isOn = isActivityOn(at: at)
-        print("toggleActivity to \(isOn ? 0 : 100)")
-        setActivity(at: at, percent: isOn ? 0 : 100)
+        let toggledState = isActivityOn(at: at) ? false : true
+        print("toggleActivity to \(toggledState)")
+        setActivity(at: at, isActive: toggledState)
     }
 
     
-    func setActivity(at: Int, percent: Int)
+    func setActivity(at: Int, isActive: Bool)
     {
-        print("DM set activity at: \(at) to \(percent)")
-        activities[at].percent = percent
+        print("DM set activity at: \(at) to \(isActive)")
+        activities[at].isActive = isActive
         let name = activities[at].name
-        hardware.sendCommand(activity: name, percent: percent) { (error) in
+        hardware.sendCommand(activity: name, isActive: isActive) { (error) in
             if let error = error {
                 print("Send command error: \(error)")
             }
@@ -62,40 +62,37 @@ class ActivitiesDataManager
 
 extension ActivitiesDataManager
 {
-    func refresh(supported: Set<String>)
+    func refresh(activities: [ActivityInfo])
     {
-        print("refresh: \(supported)")
-        for name in supported
+        print("refresh: \(activities)")
+        for activityInfo in activities
         {
-            print("ActivitiesDM: Adding activity \(name)")
-            self.activities.append(Activity(name: name, percent: 0))
-            
-            //TODO: determine actual initial activity state. It might be on.
-            
+            print("ActivitiesDM: Adding activity \(activityInfo.name)")
+            self.activities.append(Activity(name: activityInfo.name, isActive: activityInfo.isActive))
         }
-        delegate?.supportedListChanged()
+        delegate?.activitiesChanged()
     }
 }
 
 
 extension ActivitiesDataManager: ActivityNotifying
 {
-    func supportedListChanged()
+    func activitiesChanged()
     {
-        print("ActivitiesDataManager supportedListChanged")
-        let list = hardware.supportedNames
-        refresh(supported: list)
+        print("ActivitiesDataManager activitiesChanged")
+        let list = hardware.activities
+        refresh(activities: list)
     }
 
 
-    func activityChanged(name: String, percent: Int)
+    func activityChanged(name: String, isActive: Bool)
     {
-        print("ActivityDataManager: ActivityChanged: \(name)")
+        print("ActivityDataManager: ActivityChanged: \(name) = \(isActive)")
         if let index = activities.index(where: {$0.name == name})
         {
             print("   index of activity = \(index)")
-            activities[index].percent = percent
+            activities[index].isActive = isActive
+            delegate?.activityChanged(name: name, isActive: isActive)
         }
-        delegate?.activityChanged(name: name, percent: percent)
     }
 }

@@ -58,8 +58,8 @@ class ActivitiesViewController: UICollectionViewController {
             if let cell = cell as? ActivitiesCollectionViewCell
             {
                 //TODO: move this logic to the activity struct
-                print("Cell activity \(activity.name) is \(activity.percent)%")
-                let isOn = activity.percent > 0
+                print("Cell activity \(activity.name) is \(activity.isActive)")
+                let isOn = activity.isActive
                 let image = isOn ? activity.onImage : activity.offImage
                 cell.imageView.image = image
                 
@@ -147,13 +147,13 @@ extension ActivitiesViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension ActivitiesViewController: ActivityNotifying {
-    func supportedListChanged() {
-        print("supportedListChanged")
+    func activitiesChanged() {
+        print("activitiesChanged")
         collectionView?.reloadData()
     }
     
-    func activityChanged(name: String, percent: Int) {
-        print("activityChanged: \(name), \(percent)")
+    func activityChanged(name: String, isActive: Bool) {
+        print("activityChanged: \(name), \(isActive)")
         if let index = dataManager?.activities.index(where: {$0.name == name})
         {
             print("   index of activityChanged = \(index)")
