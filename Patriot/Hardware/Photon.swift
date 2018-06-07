@@ -25,7 +25,6 @@
 
 import Foundation
 import Particle_SDK
-import PromiseKit
 
 
 class Photon: HwController
@@ -62,41 +61,56 @@ class Photon: HwController
     func refresh() -> Promise<Void>
     {
         print("refreshing \(name)")
-        let publishPromise = readPublishName()
-        let devicesPromise = refreshDevices()
-        let supportedPromise = self.refreshSupported()
-        let promises = [ publishPromise, devicesPromise, supportedPromise ]
-        return when(fulfilled: promises)
+        readPublishName() {
+            print("publish name: \(self.publish)")
+            refreshDevices()
+            refreshSupported()
+        }
     }
 }
 
 extension Photon    // Devices
 {
-    func refreshDevices() -> Promise<Void>
+    func refreshDevices()
     {
         devices = []
-        return readVariable("Devices")
-        .then { result -> Void in
-            self.parseDeviceNames(result!)
+        readVariable("Devices") { (result: [String]) in
+            self.parseDeviceNames(result)
         }
     }
     
     
-    private func parseDeviceNames(_ deviceString: String)
+    private func parseDeviceNames(_ deviceString: String) -> Promise<Void>
     {
         let items = deviceString.components(separatedBy: ",")
         guard items.count > 0 else {
-            return
+            return Promise.value( () )
         }
+        var promises = [Promise<Void>]()
         for item in items
         {
             let itemComponents = item.components(separatedBy: ":")
             let lcDevice = itemComponents[0].localizedLowercase
+            
+            //TODO: filter out duplicate device names
+            
             //TODO: get actual device type & percent
-            let deviceInfo = DeviceInfo(name: lcDevice, type: .Light, percent: 0)
-            devices.append(deviceInfo)
+            let promise1 = getDeviceType(device: lcDevice)
+                .then { type -> Void in
+
+                    //TODO: get actual current percent
+                    let deviceInfo = DeviceInfo(name: lcDevice, type: type, percent: 0)
+                    devices.append(deviceInfo)
+                    delegate?.device(named: self.name, hasDevices: devices)
+            }
+            promises.append(promise)
         }
-        delegate?.device(named: self.name, hasDevices: devices)
+        return when(fulfilled: promises)
+    }
+    
+    func getDeviceType(device: String) -> Promise<Int>
+    {
+        return callFunction(name: "type", args: [])
     }
 }
 
@@ -141,23 +155,29 @@ extension Photon        // Read variables
     }
 
 
-    func readVariable(_ name: String) -> Promise<String?>
+    func readVariable(_ name: String, completion: (String?) -> Void) -> String?
     {
-        return Promise { fulfill, reject in
-            guard particleDevice.variables[name] != nil else
-            {
-                print("Variable \(name) doesn't exist on photon \(self.name)")
-                
-                return fulfill(nil)
+        guard particleDevice.variables[name] != nil else
+        {
+            print("Variable \(name) doesn't exist on photon \(self.name)")
+            completion(nil)
+            return
+        }
+        particleDevice.getVariable(name) { (result: Any?, error: Error?) in
+            completion(result as String?)
+        }
+    }
+    
+    func callFunction(name: String, args: [String]) -> Int?
+    {
+        particleDevice.callFunction(name, withArguments: args) { (result: Any?, error: Error?) in
+            if let error = error {
+                return nil
             }
-            particleDevice.getVariable(name) { (result: Any?, error: Error?) in
-                if let error = error {
-                    reject(error)
-                }
-                else
-                {
-                    fulfill(result as? String)
-                }
+            else
+            {
+                let value = result ?? 0
+                return value
             }
         }
     }

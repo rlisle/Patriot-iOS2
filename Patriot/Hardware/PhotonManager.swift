@@ -27,7 +27,6 @@
 
 import Foundation
 import Particle_SDK
-import PromiseKit
 
 class PhotonManager: NSObject
 {
@@ -60,7 +59,8 @@ extension PhotonManager: LoggingIn
                 if error == nil {
                     self.isLoggedIn = true
                     self.subscribeToEvents()
-                    self.getAllPhotonDevices(completion: completion)
+                    self.getAllPhotonDevices()
+                    completion(nil)
                     
                 } else {
                     print ("Error logging in: \(error!)")
@@ -76,17 +76,17 @@ extension PhotonManager: LoggingIn
         ParticleCloud.sharedInstance().logout()
         isLoggedIn = false
     }
-    
 }
-
 
 
 extension PhotonManager: HwManager
 {
     /**
      * Locate all the particle.io devices
+     * This is an asynchronous process.
+     * The delegates will be called as things are discovered.
      */
-    func getAllPhotonDevices(completion: @escaping (Error?) -> Void)
+    func getAllPhotonDevices()
     {
         print("getAllPhotonDevices")
         ParticleCloud.sharedInstance().getDevices {
@@ -94,24 +94,17 @@ extension PhotonManager: HwManager
             
             guard photons != nil && error == nil else {
                 print("getAllPhotonDevices error: \(error!)")
-                completion(error)
                 return
             }
             self.addAllPhotonsToCollection(photonDevices: photons!)
-                .then { _ -> Void in
-                    print("All photons added to collection")
-                    self.activityDelegate?.activitiesChanged()
-                    completion(error)
-            }
         }
     }
 
 
-    func addAllPhotonsToCollection(photonDevices: [ParticleDevice]) -> Promise<Void>
+    func addAllPhotonsToCollection(photonDevices: [ParticleDevice])
     {
         print("addAllPhotonsToCollection")
         self.photons = [: ]
-        var promises = [Promise<Void>]()
         for photonDevice in photonDevices
         {
             if isValidPhoton(photonDevice)
@@ -122,12 +115,10 @@ extension PhotonManager: HwManager
                     let photon = Photon(device: photonDevice)
                     photon.delegate = self
                     self.photons[name] = photon
-                    let promise = photon.refresh()
-                    promises.append(promise)
+                    photon.refresh()
                 }
             }
         }
-        return when(fulfilled: promises)
     }
     
     
@@ -225,19 +216,17 @@ extension PhotonManager: PhotonNotifying
 
 extension PhotonManager
 {
-    func readVariable(device: ParticleDevice, name: String) -> Promise<String>
+    func readVariable(device: ParticleDevice, name: String, completion: @escaping (Any?, Error?) -> Void)
     {
-        return Promise { fulfill, reject in
-            device.getVariable("Supported")
-            { (result: Any?, error: Error?) in
-                if let variable = result as? String
-                {
-                    fulfill(variable)
-                }
-                else
-                {
-                    reject(error!)
-                }
+        device.getVariable("Supported")
+        { (result: Any?, error: Error?) in
+            if let variable = result as? String
+            {
+                completion(variable, nil)
+            }
+            else
+            {
+                completion(nil, error!)
             }
         }
     }
