@@ -115,6 +115,7 @@ extension Photon    // Activities
     func refreshSupported()
     {
         activities = []
+        print("refreshSupported")
         return readVariable("Supported") { (result) in
             if let result = result {
                 self.parseSupported(result)
