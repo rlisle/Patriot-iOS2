@@ -10,7 +10,6 @@
 //
 
 import Foundation
-import PromiseKit
 
 
 protocol HwManager: class

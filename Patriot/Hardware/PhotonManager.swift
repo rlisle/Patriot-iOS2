@@ -112,10 +112,10 @@ extension PhotonManager: HwManager
                 if let name = photonDevice.name?.lowercased()
                 {
                     print("Adding photon \(name) to collection")
-                    let photon = Photon(device: photonDevice)
-                    photon.delegate = self
-                    self.photons[name] = photon
-                    photon.refresh()
+//                    let photon = Photon(device: photonDevice)
+//                    photon.delegate = self
+//                    self.photons[name] = photon
+//                    photon.refresh()
                 }
             }
         }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DeviceType {
+enum DeviceType: Int {
     case Unknown
     case Fan
     case Light

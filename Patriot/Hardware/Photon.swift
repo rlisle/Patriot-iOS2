@@ -58,14 +58,12 @@ class Photon: HwController
     /**
      * Refresh is expected to be called once after init and delegate is set
      */
-    func refresh() -> Promise<Void>
+    func refresh()
     {
         print("refreshing \(name)")
-        readPublishName() {
-            print("publish name: \(self.publish)")
-            refreshDevices()
-            refreshSupported()
-        }
+        readPublishName()
+        refreshDevices()
+        refreshSupported()
     }
 }
 
@@ -74,19 +72,17 @@ extension Photon    // Devices
     func refreshDevices()
     {
         devices = []
-        readVariable("Devices") { (result: [String]) in
-            self.parseDeviceNames(result)
+        readVariable("Devices") { (result) in
+            if let result = result {
+                self.parseDeviceNames(result)
+            }
         }
     }
     
     
-    private func parseDeviceNames(_ deviceString: String) -> Promise<Void>
+    private func parseDeviceNames(_ deviceString: String)
     {
         let items = deviceString.components(separatedBy: ",")
-        guard items.count > 0 else {
-            return Promise.value( () )
-        }
-        var promises = [Promise<Void>]()
         for item in items
         {
             let itemComponents = item.components(separatedBy: ":")
@@ -95,33 +91,34 @@ extension Photon    // Devices
             //TODO: filter out duplicate device names
             
             //TODO: get actual device type & percent
-            let promise1 = getDeviceType(device: lcDevice)
-                .then { type -> Void in
+            getDeviceType(device: lcDevice) { (type) in
 
-                    //TODO: get actual current percent
-                    let deviceInfo = DeviceInfo(name: lcDevice, type: type, percent: 0)
-                    devices.append(deviceInfo)
-                    delegate?.device(named: self.name, hasDevices: devices)
+                //TODO: get actual current percent
+                let deviceInfo = DeviceInfo(name: lcDevice, type: type, percent: 0)
+                self.devices.append(deviceInfo)
+                self.delegate?.device(named: self.name, hasDevices: self.devices)
             }
-            promises.append(promise)
         }
-        return when(fulfilled: promises)
     }
     
-    func getDeviceType(device: String) -> Promise<Int>
+    func getDeviceType(device: String, completion: @escaping (DeviceType) -> Void)
     {
-        return callFunction(name: "type", args: [])
+        callFunction(name: "type", args: [device]) { (result) in
+            let value = result ?? 0
+            completion(DeviceType(rawValue: value)!)
+        }
     }
 }
 
 extension Photon    // Activities
 {
-    func refreshSupported() -> Promise<Void>
+    func refreshSupported()
     {
         activities = []
-        return readVariable("Supported")
-        .then { result -> Void in
-            self.parseSupported(result!)
+        return readVariable("Supported") { (result) in
+            if let result = result {
+                self.parseSupported(result)
+            }
         }
     }
     
@@ -146,16 +143,14 @@ extension Photon    // Activities
 
 extension Photon        // Read variables
 {
-    func readPublishName() -> Promise<Void>
+    func readPublishName()
     {
-        return readVariable("PublishName")
-        .then { result -> Void in
+        readVariable("PublishName") { (result) in
             self.publish = result ?? self.uninitializedString
         }
     }
 
-
-    func readVariable(_ name: String, completion: (String?) -> Void) -> String?
+    func readVariable(_ name: String, completion: @escaping (String?) -> Void)
     {
         guard particleDevice.variables[name] != nil else
         {
@@ -164,21 +159,14 @@ extension Photon        // Read variables
             return
         }
         particleDevice.getVariable(name) { (result: Any?, error: Error?) in
-            completion(result as String?)
+            completion(result as? String)
         }
     }
     
-    func callFunction(name: String, args: [String]) -> Int?
+    func callFunction(name: String, args: [String], completion: @escaping (Int?) -> Void)
     {
-        particleDevice.callFunction(name, withArguments: args) { (result: Any?, error: Error?) in
-            if let error = error {
-                return nil
-            }
-            else
-            {
-                let value = result ?? 0
-                return value
-            }
+        particleDevice.callFunction(name, withArguments: args) { (result: NSNumber?, error: Error?) in
+            completion(result as? Int)
         }
     }
 }
