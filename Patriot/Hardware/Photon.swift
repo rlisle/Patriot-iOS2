@@ -81,12 +81,12 @@ extension Photon    // Devices
     
     private func parseDeviceNames(_ deviceString: String)
     {
+        print("parseDeviceNames: \(deviceString)")
         let items = deviceString.components(separatedBy: ",")
         for item in items
         {
-            let itemComponents = item.components(separatedBy: ":")
-            let lcDevice = itemComponents[0].localizedLowercase
-            
+            let lcDevice = item.localizedLowercase
+
             getDeviceType(device: lcDevice) { (type) in
                 
                 self.getDevicePercent(device: lcDevice) { (percent) in
@@ -132,17 +132,25 @@ extension Photon    // Activities
     
     private func parseSupported(_ supportedString: String)
     {
+        print("parseSupported: \(supportedString)")
         let items = supportedString.components(separatedBy: ",")
-        guard items.count > 0 else {
-            return
-        }
         for item in items
         {
             let lcActivity = item.localizedLowercase
-            print("Adding activity \(lcActivity)")
-            let activityInfo = ActivityInfo(name: lcActivity, isActive: false)
-            activities.append(activityInfo)
-            delegate?.device(named: self.name, hasActivities: activities)
+            
+            getActivityState(activity: lcActivity) { (isActive) in
+                let activityInfo = ActivityInfo(name: lcActivity, isActive: isActive)
+                self.activities.append(activityInfo)
+                self.delegate?.device(named: self.name, hasActivities: self.activities)
+            }
+        }
+    }
+    
+    func getActivityState(activity: String, completion: @escaping (Bool) -> Void)
+    {
+        callFunction(name: "active", args: [activity]) { (result) in
+            let value = result ?? 0
+            completion(value > 0)
         }
     }
 }

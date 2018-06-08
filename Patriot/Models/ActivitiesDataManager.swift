@@ -56,7 +56,9 @@ extension ActivitiesDataManager
         self.activities = []
         for activityInfo in activities
         {
-            self.activities.append(Activity(name: activityInfo.name, isActive: activityInfo.isActive))
+            let name = activityInfo.name
+            let isActive = activityInfo.isActive
+            self.activities.append(Activity(name: name, isActive: isActive))
         }
         delegate?.activitiesChanged()
     }
