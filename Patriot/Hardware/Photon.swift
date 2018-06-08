@@ -60,7 +60,6 @@ class Photon: HwController
      */
     func refresh()
     {
-        print("refreshing \(name)")
         readPublishName()
         refreshDevices()
         refreshSupported()
@@ -114,8 +113,8 @@ extension Photon    // Activities
 {
     func refreshSupported()
     {
-        activities = []
         print("refreshSupported")
+        activities = []
         return readVariable("Supported") { (result) in
             if let result = result {
                 self.parseSupported(result)
@@ -126,7 +125,6 @@ extension Photon    // Activities
     
     private func parseSupported(_ supportedString: String)
     {
-        print("parseSupported: \(supportedString)")
         let items = supportedString.components(separatedBy: ",")
         guard items.count > 0 else {
             return
@@ -134,11 +132,11 @@ extension Photon    // Activities
         for item in items
         {
             let lcActivity = item.localizedLowercase
+            print("Adding activity \(lcActivity)")
             let activityInfo = ActivityInfo(name: lcActivity, isActive: false)
             activities.append(activityInfo)
+            delegate?.device(named: self.name, hasActivities: activities)
         }
-        print("calling device \(self.name) hasActivities \(activities)")
-        delegate?.device(named: self.name, hasActivities: activities)
     }
 }
 

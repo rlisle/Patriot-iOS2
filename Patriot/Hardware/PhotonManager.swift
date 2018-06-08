@@ -39,7 +39,7 @@ class PhotonManager: NSObject
     var photons: [String: Photon] = [: ]   // All the particle devices attached to logged-in user's account
     let eventName          = "patriot"
     
-    //TODO: make these calculated properties using aggregtion of photons collection
+    //TODO: make these calculated properties using aggregation of photons collection
     var devices: [DeviceInfo] = []
     var activities:  [ActivityInfo] = []
 }
@@ -88,7 +88,6 @@ extension PhotonManager: HwManager
      */
     func getAllPhotonDevices()
     {
-        print("getAllPhotonDevices")
         ParticleCloud.sharedInstance().getDevices {
             (photons: [ParticleDevice]?, error: Error?) in
             
@@ -103,7 +102,6 @@ extension PhotonManager: HwManager
 
     func addAllPhotonsToCollection(photonDevices: [ParticleDevice])
     {
-        print("addAllPhotonsToCollection")
         self.photons = [: ]
         for photonDevice in photonDevices
         {
@@ -111,7 +109,6 @@ extension PhotonManager: HwManager
             {
                 if let name = photonDevice.name?.lowercased()
                 {
-                    print("Adding photon \(name) to collection")
                     let photon = Photon(device: photonDevice)
                     photon.delegate = self
                     self.photons[name] = photon
@@ -138,21 +135,18 @@ extension PhotonManager: HwManager
 
     func sendCommand(activity: String, isActive: Bool, completion: @escaping (Error?) -> Void)
     {
-        print("sendCommand to activity: \(activity) isActive: \(isActive)")
         let event = activity + ":" + (isActive ? "100" : "0")
         publish(event: event, completion: completion)
     }
 
     func sendCommand(device: String, percent: Int, completion: @escaping (Error?) -> Void)
     {
-        print("sendCommand to device: \(device) percent: \(percent)")
         let event = device + ":" + String(percent)
         publish(event: event, completion: completion)
     }
 
     func publish(event: String, completion: @escaping (Error?) -> Void)
     {
-        print("Publishing event: \(eventName) : \(event)")
         ParticleCloud.sharedInstance().publishEvent(withName: eventName, data: event, isPrivate: true, ttl: 60)
         { (error:Error?) in
             if let e = error
@@ -172,7 +166,6 @@ extension PhotonManager: HwManager
             else
             {
                 DispatchQueue.main.async(execute: {
-                    print("Subscribe: received event with data \(String(describing: event?.data))")
                     if let eventData = event?.data {
                         let splitArray = eventData.components(separatedBy: ":")
                         let name = splitArray[0].lowercased()
@@ -200,16 +193,17 @@ extension PhotonManager: PhotonNotifying
 {
     func device(named: String, hasDevices: [DeviceInfo])
     {
-        print("device named \(named) hasDevices \(hasDevices)")
         //TODO: remove duplicates
         devices += hasDevices
+        deviceDelegate?.deviceListChanged()
     }
     
     
     func device(named: String, hasActivities: [ActivityInfo])
     {
-        print("device named \(named) hasActivities \(hasActivities)")
+        //TODO: remove duplicates
         activities += hasActivities
+        activityDelegate?.activitiesChanged()
     }
 }
 
