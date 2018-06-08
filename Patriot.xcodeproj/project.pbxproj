@@ -11,6 +11,10 @@
 		87162D9B20A9BACE00861C89 /* LoggingIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87162D9920A9BACE00861C89 /* LoggingIn.swift */; };
 		8781D5F620AA4D4200E74AEE /* UserPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8781D5F520AA4D4200E74AEE /* UserPasswordViewController.swift */; };
 		E400717A20BAC98800DC9A8D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E400717920BAC98800DC9A8D /* TabBarController.swift */; };
+		E412051E20C30B1100F3BAEC /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E412051D20C30B1100F3BAEC /* DeviceType.swift */; };
+		E412052020C30B3B00F3BAEC /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E412051F20C30B3B00F3BAEC /* DeviceInfo.swift */; };
+		E412052220C30B5700F3BAEC /* ActivityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E412052120C30B5700F3BAEC /* ActivityInfo.swift */; };
+		E412052420C30E5D00F3BAEC /* ParticleSDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E412052320C30E5D00F3BAEC /* ParticleSDKError.swift */; };
 		E4362E2920A9A918006C1405 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4362E2820A9A918006C1405 /* AppDelegate.swift */; };
 		E4362E2B20A9A918006C1405 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4362E2A20A9A918006C1405 /* LoginViewController.swift */; };
 		E4362E2E20A9A918006C1405 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4362E2C20A9A918006C1405 /* Main.storyboard */; };
@@ -54,6 +58,10 @@
 		87162D9920A9BACE00861C89 /* LoggingIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingIn.swift; sourceTree = "<group>"; };
 		8781D5F520AA4D4200E74AEE /* UserPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPasswordViewController.swift; sourceTree = "<group>"; };
 		E400717920BAC98800DC9A8D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		E412051D20C30B1100F3BAEC /* DeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
+		E412051F20C30B3B00F3BAEC /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		E412052120C30B5700F3BAEC /* ActivityInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityInfo.swift; sourceTree = "<group>"; };
+		E412052320C30E5D00F3BAEC /* ParticleSDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleSDKError.swift; sourceTree = "<group>"; };
 		E4362E2520A9A918006C1405 /* Patriot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Patriot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4362E2820A9A918006C1405 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E4362E2A20A9A918006C1405 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -216,6 +224,11 @@
 				E4C283EE20BB55CA00C98A43 /* HwManager.swift */,
 				87162D9920A9BACE00861C89 /* LoggingIn.swift */,
 				E46D2A3C20BEECC50084C576 /* PhotonNotifying.swift */,
+				E412051D20C30B1100F3BAEC /* DeviceType.swift */,
+				E412051F20C30B3B00F3BAEC /* DeviceInfo.swift */,
+				E412052120C30B5700F3BAEC /* ActivityInfo.swift */,
+				E412052320C30E5D00F3BAEC /* ParticleSDKError.swift */,
+				E46D2A3E20BEFD7B0084C576 /* PhotonError.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -226,7 +239,6 @@
 				E46D2A3B20BEDE2B0084C576 /* Protocols */,
 				E4C283E720BB554E00C98A43 /* Photon.swift */,
 				E4C283F120BB561A00C98A43 /* PhotonManager.swift */,
-				E46D2A3E20BEFD7B0084C576 /* PhotonError.swift */,
 			);
 			path = Hardware;
 			sourceTree = "<group>";
@@ -357,13 +369,11 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Patriot/Pods-Patriot-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/Particle-SDK/Particle_SDK.framework",
-				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Particle_SDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -398,8 +408,12 @@
 				E4C283FA20BC27DB00C98A43 /* ActivityModel.swift in Sources */,
 				E46D2A3F20BEFD7B0084C576 /* PhotonError.swift in Sources */,
 				E46D2A4620C01EEB0084C576 /* DeviceModel.swift in Sources */,
+				E412051E20C30B1100F3BAEC /* DeviceType.swift in Sources */,
+				E412052420C30E5D00F3BAEC /* ParticleSDKError.swift in Sources */,
 				8781D5F620AA4D4200E74AEE /* UserPasswordViewController.swift in Sources */,
 				E4C283F620BC257400C98A43 /* ActivitiesViewController.swift in Sources */,
+				E412052220C30B5700F3BAEC /* ActivityInfo.swift in Sources */,
+				E412052020C30B3B00F3BAEC /* DeviceInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

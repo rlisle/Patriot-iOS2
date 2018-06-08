@@ -44,7 +44,7 @@ class TabBarController: UITabBarController {
     
     func animateToTab(viewController: UIViewController) -> Bool {
         print("animateToTab viewController")
-        print("selectedViewController = \(selectedViewController)")
+        print("selectedViewController = \(String(describing: selectedViewController))")
         guard let fromView = selectedViewController?.view else {
             return false
         }

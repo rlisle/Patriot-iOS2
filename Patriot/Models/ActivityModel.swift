@@ -14,12 +14,12 @@ class Activity
     let name:       String
     var onImage:    UIImage
     var offImage:   UIImage
-    var percent:    Int
+    var isActive:   Bool
     
-    init(name: String, percent: Int = 0) {
-        self.name    = name
-        self.percent = percent
-        self.onImage = #imageLiteral(resourceName: "LightOn")
+    init(name: String, isActive: Bool = false) {
+        self.name     = name
+        self.isActive = isActive
+        self.onImage  = #imageLiteral(resourceName: "LightOn")
         self.offImage = #imageLiteral(resourceName: "LightOff")
     }
 }

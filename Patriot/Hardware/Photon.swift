@@ -2,15 +2,19 @@
 //  Photon.swift
 //  Patriot
 //
-//  This class provides the interface to a Photon device.
+//  This class provides the interface to a Photon microcontroller.
 //
-//  The photon will be interrogated to identify the devices and activities
-//  that it supports:
+//  The Photon will be interrogated to identify the devices and activities
+//  that it implements using the published variables:
 //
 //      deviceNames     is a list of all the devices exposed on the Photon
 //      supportedNames  is a list of all activities supported by the Photon
 //      activities      is a list exposed by some Photons tracking current
 //                      activity state based on what it has heard.
+//                      TODO: switch to using the values function.
+//
+//      value(name: String) return the current device/activity value
+//      type(name: String) returns the device type
 //
 //  This file uses the Particle SDK:
 //      https://docs.particle.io/reference/ios/#common-tasks
@@ -21,17 +25,14 @@
 
 import Foundation
 import Particle_SDK
-import PromiseKit
 
 
-// Public interface
 class Photon: HwController
 {
     let uninitializedString = "uninitialized"
     
-    var devices: Set<String>?           // Cached list of device names exposed by Photon
-    var supported: Set<String>?         // Cached list of supported activities
-    var activities: [String: Int]?      // Optional list of current activities and state
+    var devices: [DeviceInfo] = []      // Cached list of device names exposed by Photon
+    var activities: [ActivityInfo] = [] // Optional list of current activities and state
     var publish: String                 // Publish event name that this device monitors
     
     var delegate: PhotonNotifying?      // Notifies manager when status changes
@@ -55,60 +56,76 @@ class Photon: HwController
     }
 
     /**
-     * Refresh is expected to be called once after init
-     * after delegate is set, etc.
+     * Refresh is expected to be called once after init and delegate is set
      */
-    func refresh() -> Promise<Void>
+    func refresh()
     {
-        print("refreshing \(name)")
-        let publishPromise = readPublishName()
-        let devicesPromise = refreshDevices()
-        let supportedPromise = self.refreshSupported()
-        let activitiesPromise = self.refreshActivities()
-        let promises = [ publishPromise, devicesPromise, supportedPromise, activitiesPromise ]
-        return when(fulfilled: promises)
+        readPublishName()
+        refreshDevices()
+        refreshSupported()
     }
 }
 
 extension Photon    // Devices
 {
-    func refreshDevices() -> Promise<Void>
+    func refreshDevices()
     {
-        devices = nil
-        return readVariable("Devices")
-        .then { result -> Void in
-            self.devices = []
-            self.parseDeviceNames(result!)
+        devices = []
+        readVariable("Devices") { (result) in
+            if let result = result {
+                self.parseDeviceNames(result)
+            }
         }
     }
     
     
     private func parseDeviceNames(_ deviceString: String)
     {
+        print("parseDeviceNames: \(deviceString)")
         let items = deviceString.components(separatedBy: ",")
-        guard items.count > 0 else {
-            return
-        }
-        devices = Set<String>()
         for item in items
         {
-            let itemComponents = item.components(separatedBy: ":")
-            let lcDevice = itemComponents[0].localizedLowercase
-            devices?.insert(lcDevice)
+            let lcDevice = item.localizedLowercase
+
+            getDeviceType(device: lcDevice) { (type) in
+                
+                self.getDevicePercent(device: lcDevice) { (percent) in
+                    print("getDevicePercent \(lcDevice) = \(percent)")
+                    let deviceInfo = DeviceInfo(name: lcDevice, type: type, percent: percent)
+                    self.devices.append(deviceInfo)
+                    self.delegate?.device(named: self.name, hasDevices: self.devices)
+                }
+            }
         }
-        delegate?.device(named: self.name, hasDevices: devices!)
+    }
+    
+    func getDeviceType(device: String, completion: @escaping (DeviceType) -> Void)
+    {
+        callFunction(name: "type", args: [device]) { (result) in
+            let value = result ?? 0
+            completion(DeviceType(rawValue: value)!)
+        }
+    }
+    
+    func getDevicePercent(device: String, completion: @escaping (Int) -> Void)
+    {
+        callFunction(name: "value", args: [device]) { (result) in
+            let value = result ?? 0
+            completion(value)
+        }
     }
 }
 
-extension Photon    // Supported
+extension Photon    // Activities
 {
-    func refreshSupported() -> Promise<Void>
+    func refreshSupported()
     {
-        supported = nil
-        return readVariable("Supported")
-        .then { result -> Void in
-            self.supported = []
-            self.parseSupported(result!)
+        print("refreshSupported")
+        activities = []
+        return readVariable("Supported") { (result) in
+            if let result = result {
+                self.parseSupported(result)
+            }
         }
     }
     
@@ -117,82 +134,53 @@ extension Photon    // Supported
     {
         print("parseSupported: \(supportedString)")
         let items = supportedString.components(separatedBy: ",")
-        guard items.count > 0 else {
-            return
-        }
-        supported = Set<String>()
         for item in items
         {
-            let lcSupported = item.localizedLowercase
-            supported?.insert(lcSupported)
-        }
-        print("calling device \(self.name) supports \(supported!)")
-        delegate?.device(named: self.name, supports: supported!)
-    }
-}
-
-extension Photon        // Activities
-{
-    func refreshActivities() -> Promise<Void>
-    {
-        activities = nil
-        return readVariable("Activities")
-        .then { result -> Void in
-            self.activities = [:]
-            if let result = result, result != "" {
-                self.parseActivities(result)
+            let lcActivity = item.localizedLowercase
+            
+            getActivityState(activity: lcActivity) { (isActive) in
+                let activityInfo = ActivityInfo(name: lcActivity, isActive: isActive)
+                self.activities.append(activityInfo)
+                self.delegate?.device(named: self.name, hasActivities: self.activities)
             }
         }
     }
     
-    
-    private func parseActivities(_ activitiesString: String)
+    func getActivityState(activity: String, completion: @escaping (Bool) -> Void)
     {
-        let items = activitiesString.components(separatedBy: ",")
-        guard items.count > 0 else {
-            return
+        callFunction(name: "active", args: [activity]) { (result) in
+            let value = result ?? 0
+            completion(value > 0)
         }
-        activities = [: ]
-        for item in items
-        {
-            let itemComponents = item.components(separatedBy: ":")
-            let lcActivity = itemComponents[0].localizedLowercase
-            let lcValue = itemComponents[1].lowercased()
-            activities![lcActivity] = Int(lcValue) ?? 0
-        }
-        delegate?.device(named: self.name, hasSeenActivities: activities!)
     }
 }
 
 extension Photon        // Read variables
 {
-    func readPublishName() -> Promise<Void>
+    func readPublishName()
     {
-        return readVariable("PublishName")
-        .then { result -> Void in
+        readVariable("PublishName") { (result) in
             self.publish = result ?? self.uninitializedString
         }
     }
 
-
-    func readVariable(_ name: String) -> Promise<String?>
+    func readVariable(_ name: String, completion: @escaping (String?) -> Void)
     {
-        return Promise { fulfill, reject in
-            guard particleDevice.variables[name] != nil else
-            {
-                print("Variable \(name) doesn't exist on photon \(self.name)")
-                
-                return fulfill(nil)
-            }
-            particleDevice.getVariable(name) { (result: Any?, error: Error?) in
-                if let error = error {
-                    reject(error)
-                }
-                else
-                {
-                    fulfill(result as? String)
-                }
-            }
+        guard particleDevice.variables[name] != nil else
+        {
+            print("Variable \(name) doesn't exist on photon \(self.name)")
+            completion(nil)
+            return
+        }
+        particleDevice.getVariable(name) { (result: Any?, error: Error?) in
+            completion(result as? String)
+        }
+    }
+    
+    func callFunction(name: String, args: [String], completion: @escaping (Int?) -> Void)
+    {
+        particleDevice.callFunction(name, withArguments: args) { (result: NSNumber?, error: Error?) in
+            completion(result as? Int)
         }
     }
 }

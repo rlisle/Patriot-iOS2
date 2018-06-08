@@ -9,11 +9,11 @@
 //
 //  When a new device is found, it will be added to the photons collection
 //  and a delegate called.
-//  This is the anticipated way of updating displays, etc.
 //
 //  The current activity state will be gleaned from the exposed Activities
 //  properties of one or more Photons initially, but then tracked directly
 //  after initialization by subscribing to particle or MQTT events.
+//  TODO: convert to using the value() function
 //
 //  Subscribing to particle events will also allow detecting new Photons
 //  as they come online.
@@ -27,15 +27,6 @@
 
 import Foundation
 import Particle_SDK
-import PromiseKit
-
-enum ParticleSDKError : Error
-{
-    case invalidUserPassword
-    case invalidToken
-    case notLoggedIn
-}
-
 
 class PhotonManager: NSObject
 {
@@ -48,15 +39,9 @@ class PhotonManager: NSObject
     var photons: [String: Photon] = [: ]   // All the particle devices attached to logged-in user's account
     let eventName          = "patriot"
     
-    //TODO: make this a calculated property using photons collection
-    var deviceNames        = Set<String>()      // Names exposed by the "Devices" variables
-    
-    //TODO: make this a calculated property using photons collection
-    var supportedNames     = Set<String>()      // Activity names exposed by the "Supported" variables
-    
-    //TODO: make this a calculated property using photons collection
-    var currentActivities:  [String: Int] = [: ] // List of currently on activities reported by Master
-    
+    //TODO: make these calculated properties using aggregation of photons collection
+    var devices: [DeviceInfo] = []
+    var activities:  [ActivityInfo] = []
 }
 
 extension PhotonManager: LoggingIn
@@ -74,7 +59,8 @@ extension PhotonManager: LoggingIn
                 if error == nil {
                     self.isLoggedIn = true
                     self.subscribeToEvents()
-                    self.getAllPhotonDevices(completion: completion)
+                    self.getAllPhotonDevices()
+                    completion(nil)
                     
                 } else {
                     print ("Error logging in: \(error!)")
@@ -90,59 +76,46 @@ extension PhotonManager: LoggingIn
         ParticleCloud.sharedInstance().logout()
         isLoggedIn = false
     }
-    
 }
-
 
 
 extension PhotonManager: HwManager
 {
     /**
      * Locate all the particle.io devices
+     * This is an asynchronous process.
+     * The delegates will be called as things are discovered.
      */
-    func getAllPhotonDevices(completion: @escaping (Error?) -> Void)
+    func getAllPhotonDevices()
     {
-        print("getAllPhotonDevices")
         ParticleCloud.sharedInstance().getDevices {
-            (devices: [ParticleDevice]?, error: Error?) in
+            (photons: [ParticleDevice]?, error: Error?) in
             
-            guard devices != nil && error == nil else {
+            guard photons != nil && error == nil else {
                 print("getAllPhotonDevices error: \(error!)")
-                completion(error)
                 return
             }
-            self.addAllPhotonsToCollection(devices: devices!)
-                .then { _ -> Void in
-                    print("All photons added to collection")
-                    self.activityDelegate?.supportedListChanged()
-                    completion(error)
-            }
+            self.addAllPhotonsToCollection(photonDevices: photons!)
         }
     }
 
 
-    func addAllPhotonsToCollection(devices: [ParticleDevice]) -> Promise<Void>
+    func addAllPhotonsToCollection(photonDevices: [ParticleDevice])
     {
-        print("addAllPhotonsToCollection")
         self.photons = [: ]
-        var promises = [Promise<Void>]()
-        for device in devices
+        for photonDevice in photonDevices
         {
-            if isValidPhoton(device)
+            if isValidPhoton(photonDevice)
             {
-                if let name = device.name?.lowercased()
+                if let name = photonDevice.name?.lowercased()
                 {
-                    print("Adding photon \(name) to collection")
-                    let photon = Photon(device: device)
+                    let photon = Photon(device: photonDevice)
                     photon.delegate = self
                     self.photons[name] = photon
-                    //self.deviceDelegate?.deviceFound(name: name) No, this call is for devices, not photons now.
-                    let promise = photon.refresh()
-                    promises.append(promise)
+                    photon.refresh()
                 }
             }
         }
-        return when(fulfilled: promises)
     }
     
     
@@ -160,23 +133,20 @@ extension PhotonManager: HwManager
         return photon
     }
 
-    func sendCommand(activity: String, percent: Int, completion: @escaping (Error?) -> Void)
+    func sendCommand(activity: String, isActive: Bool, completion: @escaping (Error?) -> Void)
     {
-        print("sendCommand to activity: \(activity) percent: \(percent)")
-        let event = activity + ":" + String(percent)
+        let event = activity + ":" + (isActive ? "100" : "0")
         publish(event: event, completion: completion)
     }
 
     func sendCommand(device: String, percent: Int, completion: @escaping (Error?) -> Void)
     {
-        print("sendCommand to device: \(device) percent: \(percent)")
         let event = device + ":" + String(percent)
         publish(event: event, completion: completion)
     }
 
     func publish(event: String, completion: @escaping (Error?) -> Void)
     {
-        print("Publishing event: \(eventName) : \(event)")
         ParticleCloud.sharedInstance().publishEvent(withName: eventName, data: event, isPrivate: true, ttl: 60)
         { (error:Error?) in
             if let e = error
@@ -196,14 +166,13 @@ extension PhotonManager: HwManager
             else
             {
                 DispatchQueue.main.async(execute: {
-                    print("Subscribe: received event with data \(String(describing: event?.data))")
                     if let eventData = event?.data {
                         let splitArray = eventData.components(separatedBy: ":")
                         let name = splitArray[0].lowercased()
                         if let percent: Int = Int(splitArray[1]), percent >= 0, percent <= 100
                         {
                             //TODO: Currently can't tell if this is an activity or device
-                            self.activityDelegate?.activityChanged(name: name, percent: percent)
+                            self.activityDelegate?.activityChanged(name: name, isActive: percent != 0)
                             self.deviceDelegate?.deviceChanged(name: name, percent: percent)
                         }
                         else
@@ -222,43 +191,41 @@ extension PhotonManager: HwManager
 // These methods receive the capabilities of each photon asynchronously
 extension PhotonManager: PhotonNotifying
 {
-    func device(named: String, hasDevices: Set<String>)
+    func device(named: String, hasDevices: [DeviceInfo])
     {
-        print("device named \(named) hasDevices \(hasDevices)")
-        deviceNames = deviceNames.union(hasDevices)
+        for device in hasDevices {
+            if device.name != "" && devices.contains(device) == false {
+                devices.append(device)
+            }
+        }
+        deviceDelegate?.deviceListChanged()
     }
     
-    
-    func device(named: String, supports: Set<String>)
+    func device(named: String, hasActivities: [ActivityInfo])
     {
-        print("device named \(named) supports \(supports)")
-        supportedNames = supportedNames.union(supports)
-    }
-    
-    
-    func device(named: String, hasSeenActivities: [String: Int])
-    {
-        print("device named \(named) hasSeenActivities \(hasSeenActivities)")
-        hasSeenActivities.forEach { (k,v) in currentActivities[k] = v }
+        for activity in hasActivities {
+            if activity.name != "" && activities.contains(activity) == false {
+                activities.append(activity)
+            }
+        }
+        activityDelegate?.activitiesChanged()
     }
 }
 
 
 extension PhotonManager
 {
-    func readVariable(device: ParticleDevice, name: String) -> Promise<String>
+    func readVariable(device: ParticleDevice, name: String, completion: @escaping (Any?, Error?) -> Void)
     {
-        return Promise { fulfill, reject in
-            device.getVariable("Supported")
-            { (result: Any?, error: Error?) in
-                if let variable = result as? String
-                {
-                    fulfill(variable)
-                }
-                else
-                {
-                    reject(error!)
-                }
+        device.getVariable("Supported")
+        { (result: Any?, error: Error?) in
+            if let variable = result as? String
+            {
+                completion(variable, nil)
+            }
+            else
+            {
+                completion(nil, error!)
             }
         }
     }
