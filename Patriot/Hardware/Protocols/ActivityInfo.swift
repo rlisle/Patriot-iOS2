@@ -12,3 +12,9 @@ struct ActivityInfo {
     var name: String
     var isActive: Bool
 }
+
+extension ActivityInfo: Equatable {
+    static func == (lhs: ActivityInfo, rhs: ActivityInfo) -> Bool {
+        return lhs.name == rhs.name
+    }
+}

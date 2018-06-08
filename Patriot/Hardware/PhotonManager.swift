@@ -193,16 +193,21 @@ extension PhotonManager: PhotonNotifying
 {
     func device(named: String, hasDevices: [DeviceInfo])
     {
-        //TODO: remove duplicates
-        devices += hasDevices
+        for device in hasDevices {
+            if device.name != "" && devices.contains(device) == false {
+                devices.append(device)
+            }
+        }
         deviceDelegate?.deviceListChanged()
     }
     
-    
     func device(named: String, hasActivities: [ActivityInfo])
     {
-        //TODO: remove duplicates
-        activities += hasActivities
+        for activity in hasActivities {
+            if activity.name != "" && activities.contains(activity) == false {
+                activities.append(activity)
+            }
+        }
         activityDelegate?.activitiesChanged()
     }
 }

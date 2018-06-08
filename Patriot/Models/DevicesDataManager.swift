@@ -59,11 +59,10 @@ extension DevicesDataManager
 {
     func refresh(devices: [DeviceInfo])
     {
-        print("refresh: \(devices)")
+        self.devices = []
         for device in devices
         {
             let name = device.name
-            print("DevicesDM: Adding device \(name)")
             self.devices.append(Device(name: name, percent: 0))
             
             //TODO: determine actual initial device state. It might be on.

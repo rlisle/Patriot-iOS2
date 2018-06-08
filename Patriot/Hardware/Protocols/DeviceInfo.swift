@@ -13,3 +13,9 @@ struct DeviceInfo {
     var type: DeviceType
     var percent: Int
 }
+
+extension DeviceInfo: Equatable {
+    static func == (lhs: DeviceInfo, rhs: DeviceInfo) -> Bool {
+        return lhs.name == rhs.name
+    }
+}

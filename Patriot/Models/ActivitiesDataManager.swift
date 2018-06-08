@@ -53,6 +53,7 @@ extension ActivitiesDataManager
 {
     func refresh(activities: [ActivityInfo])
     {
+        self.activities = []
         for activityInfo in activities
         {
             self.activities.append(Activity(name: activityInfo.name, isActive: activityInfo.isActive))
