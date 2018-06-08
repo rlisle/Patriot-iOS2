@@ -59,7 +59,6 @@ class DevicesViewController: UICollectionViewController {
             let device = devices[indexPath.row];
             if let cell = cell as? DevicesCollectionViewCell
             {
-                //TODO: move this logic to the device struct
                 print("Cell device \(device.name) is \(device.percent)%")
                 let isOn = device.percent > 0
                 let image = isOn ? device.onImage : device.offImage

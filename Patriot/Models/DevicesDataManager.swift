@@ -63,10 +63,8 @@ extension DevicesDataManager
         for device in devices
         {
             let name = device.name
-            self.devices.append(Device(name: name, percent: 0))
-            
-            //TODO: determine actual initial device state. It might be on.
-            
+            let percent = device.percent
+            self.devices.append(Device(name: name, percent: percent))
         }
         delegate?.deviceListChanged()
     }

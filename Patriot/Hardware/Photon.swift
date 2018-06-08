@@ -87,15 +87,14 @@ extension Photon    // Devices
             let itemComponents = item.components(separatedBy: ":")
             let lcDevice = itemComponents[0].localizedLowercase
             
-            //TODO: filter out duplicate device names
-            
-            //TODO: get actual device type & percent
             getDeviceType(device: lcDevice) { (type) in
-
-                //TODO: get actual current percent
-                let deviceInfo = DeviceInfo(name: lcDevice, type: type, percent: 0)
-                self.devices.append(deviceInfo)
-                self.delegate?.device(named: self.name, hasDevices: self.devices)
+                
+                self.getDevicePercent(device: lcDevice) { (percent) in
+                    print("getDevicePercent \(lcDevice) = \(percent)")
+                    let deviceInfo = DeviceInfo(name: lcDevice, type: type, percent: percent)
+                    self.devices.append(deviceInfo)
+                    self.delegate?.device(named: self.name, hasDevices: self.devices)
+                }
             }
         }
     }
@@ -105,6 +104,14 @@ extension Photon    // Devices
         callFunction(name: "type", args: [device]) { (result) in
             let value = result ?? 0
             completion(DeviceType(rawValue: value)!)
+        }
+    }
+    
+    func getDevicePercent(device: String, completion: @escaping (Int) -> Void)
+    {
+        callFunction(name: "value", args: [device]) { (result) in
+            let value = result ?? 0
+            completion(value)
         }
     }
 }
