@@ -14,6 +14,10 @@ PODS:
   - AFNetworking/Serialization (3.2.0)
   - AFNetworking/UIKit (3.2.0):
     - AFNetworking/NSURLSession
+  - CocoaAsyncSocket (7.6.3)
+  - CocoaMQTT (1.1.2):
+    - CocoaAsyncSocket (~> 7.6.1)
+    - SwiftyTimer (~> 2.0.0)
   - Particle-SDK (0.7.0):
     - Particle-SDK/Helpers (= 0.7.0)
     - Particle-SDK/SDK (= 0.7.0)
@@ -21,19 +25,27 @@ PODS:
   - Particle-SDK/SDK (0.7.0):
     - AFNetworking (~> 3.0)
     - Particle-SDK/Helpers
+  - SwiftyTimer (2.0.0)
 
 DEPENDENCIES:
+  - CocoaMQTT
   - Particle-SDK
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - CocoaAsyncSocket
+    - CocoaMQTT
     - Particle-SDK
+    - SwiftyTimer
 
 SPEC CHECKSUMS:
   AFNetworking: 8ac6017b94ea105479f7776e5288e48ae9c59bb4
+  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
+  CocoaMQTT: d33ab3cd4e329f9f1cfbb62e25306a318a606616
   Particle-SDK: d08e4a9e42c927bd997cd4817e5a01894ace4187
+  SwiftyTimer: 2efd74b060d69ad4f1496baf5bbedbe132125fcf
 
-PODFILE CHECKSUM: cb828252565c720ddde77a67abbfc98ce577821d
+PODFILE CHECKSUM: 40058155561f9a794870d74d328a9e42b405aad7
 
 COCOAPODS: 1.5.3
