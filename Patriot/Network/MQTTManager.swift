@@ -50,7 +50,6 @@ extension MQTTManager: MQTTSending
 }
 
 extension MQTTManager: CocoaMQTTDelegate {
-    // Note: func mqtt(_ mqtt: CocoaMQTT, didConnect host: String, port: Int) was deprecated.
     
     func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16 ) {
         if let payload: String = message.string {
@@ -79,8 +78,10 @@ extension MQTTManager: CocoaMQTTDelegate {
         //Log.text("MQTT didPublishAck id: \(id)", type: .debug)
     }
     
-    func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topic: String) {
+    func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topics: [String]) {
+        //for topic in topics {
         //Log.text("MQTT didSubscribeTopic: \(topic)", type: .debug)
+        //}
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didUnsubscribeTopic topic: String) {
