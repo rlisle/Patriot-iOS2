@@ -31,7 +31,7 @@ DEPENDENCIES:
   - Particle-SDK
 
 SPEC REPOS:
-  trunk:
+  https://cdn.cocoapods.org/:
     - AFNetworking
     - CocoaAsyncSocket
     - CocoaMQTT
@@ -43,6 +43,6 @@ SPEC CHECKSUMS:
   CocoaMQTT: a61490ed3b328011c5d75169a77781983e2bb221
   Particle-SDK: cdda539eeb1e5464950657dff46e22ffc42c9525
 
-PODFILE CHECKSUM: 1d4a680f3e662cee54ba84198f8ff39723f4c1dd
+PODFILE CHECKSUM: c06fd17aa859afc10f34ef40ac0b9525f198e931
 
 COCOAPODS: 1.9.3
