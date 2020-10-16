@@ -16,6 +16,7 @@ class AppFactory
 {
     let window: UIWindow
     let hwManager = PhotonManager()
+    let mqttManager = MQTTManager()
     let settings = Settings(store: UserDefaultsSettingsStore())
     
     init(window: UIWindow)
@@ -27,6 +28,7 @@ class AppFactory
     {
         viewController.settings = settings
         viewController.loginManager = hwManager
+        viewController.mqttManager = mqttManager
     }
     
     func configureActivities(viewController: ActivitiesViewController)

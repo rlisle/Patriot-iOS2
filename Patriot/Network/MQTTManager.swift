@@ -24,7 +24,7 @@ protocol MQTTReceiving
 
 class MQTTManager {
 
-    let mqttURL = "rons-mac-mini" //192.168.10.148"
+    let mqttURL = "rons-mac-mini" //192.168.10.184"
     let mqttPort: UInt16 = 1883
     let mqttTopic = "#"             // For now we're receiving everything
     

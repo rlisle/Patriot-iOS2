@@ -18,6 +18,7 @@ class LoginViewController: UIViewController {
     // Set by AppFactory
     var settings: Settings!
     var loginManager: LoggingIn!
+    var mqttManager: MQTTManager!
     
     var user: String?
     var password: String?
@@ -88,6 +89,7 @@ class LoginViewController: UIViewController {
         if (loginManager.isLoggedIn) {
             loginButton.isEnabled = false
             logoutButton.isEnabled = true
+            if mqttManager.i
             label.text = "Login status: logged in"
             imageView.image = #imageLiteral(resourceName: "LightOn")
         } else {
@@ -99,3 +101,12 @@ class LoginViewController: UIViewController {
     }
 }
 
+extension LoginViewController: MQTTReceiving {
+    func connectionDidChange(isConnected: Bool) {
+        
+    }
+    
+    func didReceiveMessage(topic: String, message: String) {
+        
+    }
+}
