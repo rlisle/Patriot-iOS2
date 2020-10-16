@@ -89,13 +89,20 @@ class LoginViewController: UIViewController {
         if (loginManager.isLoggedIn) {
             loginButton.isEnabled = false
             logoutButton.isEnabled = true
-            if mqttManager.i
-            label.text = "Login status: logged in"
+            if mqttManager.isConnected {
+                label.text = "Login status: MQTT and logged in"
+            } else {
+                label.text = "Login status: logged in but no MQTT"
+            }
             imageView.image = #imageLiteral(resourceName: "LightOn")
         } else {
             loginButton.isEnabled = true
             logoutButton.isEnabled = false
-            label.text = "Login status: not logged in"
+            if mqttManager.isConnected {
+                label.text = "Login status: MQTT but not logged in"
+            } else {
+                label.text = "Login status: No MQTT and not logged in"
+            }
             imageView.image = #imageLiteral(resourceName: "LightOff")
         }
     }

@@ -15,13 +15,16 @@ import UIKit
 class AppFactory
 {
     let window: UIWindow
-    let hwManager = PhotonManager()
-    let mqttManager = MQTTManager()
-    let settings = Settings(store: UserDefaultsSettingsStore())
+    let hwManager: PhotonManager
+    let mqttManager: MQTTManager
+    let settings: Settings
     
     init(window: UIWindow)
     {
         self.window = window
+        hwManager = PhotonManager()
+        mqttManager = MQTTManager()
+        settings = Settings(store: UserDefaultsSettingsStore())
     }
     
     func configureLogin(viewController: LoginViewController)

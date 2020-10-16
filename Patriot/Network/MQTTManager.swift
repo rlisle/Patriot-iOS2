@@ -24,11 +24,13 @@ protocol MQTTReceiving
 
 class MQTTManager {
 
-    let mqttURL = "rons-mac-mini" //192.168.10.184"
+    let mqttURL = "192.168.10.184" // was "rons-mac-mini"
     let mqttPort: UInt16 = 1883
     let mqttTopic = "#"             // For now we're receiving everything
     
     let mqtt: CocoaMQTT!
+    
+    var isConnected: Bool = false
     
     var delegate: MQTTReceiving?
     
@@ -36,15 +38,15 @@ class MQTTManager {
         let clientID = "Patriot" + String(ProcessInfo().processIdentifier)
         mqtt = CocoaMQTT(clientID: clientID, host: mqttURL, port: mqttPort)
         mqtt.delegate = self
-        mqtt.connect()
+        isConnected = mqtt.connect()
+        print("MQTT init connected: \(isConnected)")
     }
-    
 }
 
 extension MQTTManager: MQTTSending
 {
     func sendMessage(topic: String, message: String) {
-        //Log.text("MQTT sendMessage \(topic) \(message)", type: .debug)
+        print("MQTT sendMessage \(topic) \(message)")
         mqtt.publish(topic, withString: message)
     }
 }
@@ -61,43 +63,45 @@ extension MQTTManager: CocoaMQTTDelegate {
     
     // Other required methods for CocoaMQTTDelegate
     func mqtt(_ mqtt: CocoaMQTT, didReceive trust: SecTrust, completionHandler: @escaping (Bool) -> Void) {
-        //Log.text("MQTT didReceive trust: \(trust)", type: .debug)
+        print("MQTT didReceive trust: \(trust)")
         completionHandler(true)
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
+        print("MQTT didConnectAck")
         delegate?.connectionDidChange(isConnected: true)
         mqtt.subscribe(mqttTopic)
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
-        //Log.text("MQTT didPublishMessage: \(message), id: \(id)", type: .debug)
+        print("MQTT didPublishMessage: \(message), id: \(id)")
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didPublishAck id: UInt16) {
-        //Log.text("MQTT didPublishAck id: \(id)", type: .debug)
+        print("MQTT didPublishAck id: \(id)")
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topics: [String]) {
-        //for topic in topics {
-        //Log.text("MQTT didSubscribeTopic: \(topic)", type: .debug)
-        //}
+        for topic in topics {
+            print("MQTT didSubscribeTopic: \(topic)")
+        }
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didUnsubscribeTopic topic: String) {
-        //Log.text("MQTT didUnsubscribeTopic: \(topic)", type: .debug)
+        print("MQTT didUnsubscribeTopic: \(topic)")
     }
     
     func mqttDidPing(_ mqtt: CocoaMQTT) {
-        //Log.text("MQTT ping", type: .debug)   // Too much noise
+        print("MQTT ping")
     }
     
     func mqttDidReceivePong(_ mqtt: CocoaMQTT) {
-        //Log.text("MQTT pong", type: .debug)   // Too much noise
+        print("MQTT pong")
     }
     
     func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
-        //Log.text("MQTT didDisconnect withError: \(String(describing: err))", type: .debug)
+        print("MQTT didDisconnect withError: \(String(describing: err))")
+        isConnected = false
         delegate?.connectionDidChange(isConnected: false)
     }
     
