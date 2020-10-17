@@ -14,26 +14,30 @@ import UIKit
 
 class TabBarController: UITabBarController {
 
+    let activitiesIndex = 0
+    let devicesIndex = 1
+    let loginIndex = 2
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         delegate = self
-        selectedIndex = 2
+        selectedIndex = loginIndex
     }
     
     func selectActivitiesTab() {
         print("selectActivitiesTab")
-        animateToTab(toIndex: 0)
+        animateToTab(toIndex: activitiesIndex)
     }
     
     func selectDevicesTab() {
         print("selectDevicesTab")
-        animateToTab(toIndex: 1)
+        animateToTab(toIndex: devicesIndex)
     }
     
     func selectLoginTab() {
         print("selectLoginTab")
-        animateToTab(toIndex: 2)
+        animateToTab(toIndex: loginIndex)
     }
     
     func animateToTab(toIndex: Int) {
