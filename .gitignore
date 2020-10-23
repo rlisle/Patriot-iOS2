@@ -42,9 +42,9 @@ playground.xcworkspace
 # Package.pins
 .build/
 
-# CocoaPods - Refactored to standalone file
+# CocoaPods - check all files in
 
-# Carthage - Refactored to standalone file
+# Carthage - not using
 
 # fastlane
 #
@@ -69,7 +69,6 @@ fastlane/test_output
 
 ## Other
 .DS_Store
-Pods/
 
 ### Xcode Patch ###
 *.xcodeproj/*
