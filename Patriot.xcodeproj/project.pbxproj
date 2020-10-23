@@ -127,8 +127,8 @@
 				6C21588D215C47ED00799AEF /* MQTTManager.swift */,
 			);
 			name = Network;
-			path = "New Group";
-			sourceTree = "<group>";
+			path = Patriot/Network;
+			sourceTree = SOURCE_ROOT;
 		};
 		87DCE2B520B75046001BFBFA /* View Controllers */ = {
 			isa = PBXGroup;
