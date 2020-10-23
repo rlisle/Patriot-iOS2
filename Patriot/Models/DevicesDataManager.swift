@@ -12,12 +12,14 @@ class DevicesDataManager
 {
     var devices:        [ Device ] = []
     let hardware:       HwManager
+    let mqtt:           MQTTManager
     weak var delegate:  DeviceNotifying?
     
-    init(hardware: HwManager)
+    init(hardware: HwManager, mqtt: MQTTManager)
     {
         print("DevicesDataManager init")
         self.hardware = hardware
+        self.mqtt = mqtt
         
         devices.append(Device(name: "office", percent: 0))
         
@@ -44,9 +46,13 @@ class DevicesDataManager
         print("DM set device at: \(at) to \(percent)")
         devices[at].percent = percent
         let name = devices[at].name
-        hardware.sendCommand(device: name, percent: percent) { (error) in
-            if let error = error {
-                print("Send command error: \(error)")
+        if mqtt.isConnected {
+            mqtt.sendCommand(device: name, percent: percent)
+        } else {
+            hardware.sendCommand(device: name, percent: percent) { (error) in
+                if let error = error {
+                    print("Send command error: \(error)")
+                }
             }
         }
     }

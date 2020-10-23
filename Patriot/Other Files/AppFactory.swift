@@ -46,7 +46,7 @@ class AppFactory
     func configureDevices(viewController: DevicesViewController)
     {
         viewController.settings = settings
-        let devicesDataManager = DevicesDataManager(hardware: hwManager)
+        let devicesDataManager = DevicesDataManager(hardware: hwManager, mqtt: mqttManager)
         viewController.dataManager = devicesDataManager
         hwManager.deviceDelegate = devicesDataManager
         devicesDataManager.delegate = viewController

@@ -13,6 +13,8 @@ import CocoaMQTT
 protocol MQTTSending
 {
     func sendMessage(topic: String, message: String)
+    func sendCommand(activity: String, isActive: Bool)
+    func sendCommand(device: String, percent: Int)
 }
 
 // This protocol provides notifications of MQTT events to a delegate
@@ -48,6 +50,18 @@ extension MQTTManager: MQTTSending
     func sendMessage(topic: String, message: String) {
         print("MQTT sendMessage \(topic) \(message)")
         mqtt.publish(topic, withString: message)
+    }
+    
+    func sendCommand(activity: String, isActive: Bool)
+    {
+        let event = activity + ":" + (isActive ? "100" : "0")
+        sendMessage(topic: "patriot", message: event)
+    }
+
+    func sendCommand(device: String, percent: Int)
+    {
+        let event = device + ":" + String(percent)
+        sendMessage(topic: "patriot", message: event)
     }
 }
 
