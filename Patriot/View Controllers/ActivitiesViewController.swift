@@ -140,7 +140,7 @@ extension ActivitiesViewController: UICollectionViewDelegateFlowLayout {
         let displayWidth = Int(screenSize.width)
         let numberOfItemsPerRow = displayWidth / itemWidth
         let horizontalSpacing = CGFloat((displayWidth - (itemWidth * numberOfItemsPerRow)) / (numberOfItemsPerRow + 1))
-        let inset = UIEdgeInsetsMake(verticalInsets, horizontalSpacing-1, verticalInsets, horizontalSpacing-1)
+        let inset = UIEdgeInsets.init(top: verticalInsets, left: horizontalSpacing-1, bottom: verticalInsets, right: horizontalSpacing-1)
         
         return inset
     }
@@ -154,7 +154,7 @@ extension ActivitiesViewController: ActivityNotifying {
     
     func activityChanged(name: String, isActive: Bool) {
         print("activityChanged: \(name), \(isActive)")
-        if let index = dataManager?.activities.index(where: {$0.name == name})
+        if let index = dataManager?.activities.firstIndex(where: {$0.name == name})
         {
             print("   index of activityChanged = \(index)")
             collectionView?.reloadItems(at: [IndexPath(row: index, section: 0)])

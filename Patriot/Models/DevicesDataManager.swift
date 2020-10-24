@@ -90,7 +90,7 @@ extension DevicesDataManager: DeviceNotifying
     func deviceChanged(name: String, percent: Int)
     {
         print("DeviceDataManager: DeviceChanged: \(name)")
-        if let index = devices.index(where: {$0.name == name})
+        if let index = devices.firstIndex(where: {$0.name == name})
         {
             print("   index of device = \(index)")
             devices[index].percent = percent

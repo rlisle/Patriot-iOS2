@@ -141,7 +141,7 @@ extension DevicesViewController: UICollectionViewDelegateFlowLayout {
         let displayWidth = Int(screenSize.width)
         let numberOfItemsPerRow = displayWidth / itemWidth
         let horizontalSpacing = CGFloat((displayWidth - (itemWidth * numberOfItemsPerRow)) / (numberOfItemsPerRow + 1))
-        let inset = UIEdgeInsetsMake(verticalInsets, horizontalSpacing-1, verticalInsets, horizontalSpacing-1)
+        let inset = UIEdgeInsets.init(top: verticalInsets, left: horizontalSpacing-1, bottom: verticalInsets, right: horizontalSpacing-1)
         
         return inset
     }
@@ -155,7 +155,7 @@ extension DevicesViewController: DeviceNotifying {
     
     func deviceChanged(name: String, percent: Int) {
         print("deviceChanged: \(name), \(percent)")
-        if let index = dataManager?.devices.index(where: {$0.name == name})
+        if let index = dataManager?.devices.firstIndex(where: {$0.name == name})
         {
             print("   index of deviceChanged = \(index)")
             collectionView?.reloadItems(at: [IndexPath(row: index, section: 0)])

@@ -76,7 +76,7 @@ extension ActivitiesDataManager: ActivityNotifying
 
     func activityChanged(name: String, isActive: Bool)
     {
-        if let index = activities.index(where: {$0.name == name})
+        if let index = activities.firstIndex(where: {$0.name == name})
         {
             activities[index].isActive = isActive
             delegate?.activityChanged(name: name, isActive: isActive)

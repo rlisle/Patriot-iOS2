@@ -57,8 +57,8 @@ class TabBarController: UITabBarController {
             return false
         }
         let tabViewControllers = viewControllers!
-        let fromIndex = tabViewControllers.index(of: selectedViewController!)!   // YOLO
-        let toIndex = tabViewControllers.index(of: viewController)!
+        let fromIndex = tabViewControllers.firstIndex(of: selectedViewController!)!   // YOLO
+        let toIndex = tabViewControllers.firstIndex(of: viewController)!
         guard fromIndex != toIndex else {return false}
         
         // Add the toView to the tab bar view
@@ -73,7 +73,7 @@ class TabBarController: UITabBarController {
         // Disable interaction during animation
         view.isUserInteractionEnabled = false
         
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
             
             // Slide the views by -offset
             fromView.center = CGPoint(x: fromView.center.x - offset, y: fromView.center.y);

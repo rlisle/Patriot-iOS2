@@ -307,9 +307,11 @@
 				TargetAttributes = {
 					E4362E2420A9A918006C1405 = {
 						CreatedOnToolsVersion = 9.3.1;
+						LastSwiftMigration = 1210;
 					};
 					E4362E3820A9A91A006C1405 = {
 						CreatedOnToolsVersion = 9.3.1;
+						LastSwiftMigration = 1210;
 						TestTargetID = E4362E2420A9A918006C1405;
 					};
 				};
@@ -593,7 +595,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.lisles.Patriot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -612,7 +614,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.lisles.Patriot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -632,7 +634,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.lisles.PatriotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Patriot.app/Patriot";
 			};
@@ -653,7 +655,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.lisles.PatriotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Patriot.app/Patriot";
 			};
