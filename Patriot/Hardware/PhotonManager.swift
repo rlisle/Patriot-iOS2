@@ -33,7 +33,6 @@ class PhotonManager: NSObject
     var photons: [String: Photon] = [: ]   // All the particle devices attached to logged-in user's account
     let eventName          = "patriot"
     
-    //TODO: make these calculated properties using aggregation of photons collection
     var devices: [DeviceInfo] = []
 }
 
@@ -126,12 +125,7 @@ extension PhotonManager: HwManager
         return photon
     }
 
-    func sendCommand(activity: String, isActive: Bool, completion: @escaping (Error?) -> Void)
-    {
-        let event = activity + ":" + (isActive ? "100" : "0")
-        publish(event: event, completion: completion)
-    }
-
+    // Use MQTT instead
     func sendCommand(device: String, percent: Int, completion: @escaping (Error?) -> Void)
     {
         let event = device + ":" + String(percent)
@@ -159,6 +153,7 @@ extension PhotonManager: HwManager
             else
             {
                 DispatchQueue.main.async(execute: {
+                    //TODO: convert to new format
                     if let eventData = event?.data {
                         let splitArray = eventData.components(separatedBy: ":")
                         let name = splitArray[0].lowercased()

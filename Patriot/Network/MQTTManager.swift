@@ -53,8 +53,9 @@ extension MQTTManager: MQTTSending
     
     func sendCommand(device: String, percent: Int)
     {
-        let event = device + ":" + String(percent)
-        sendMessage(topic: "patriot", message: event)
+        let topic = "patriot/"+device
+        let message = String(percent)
+        sendMessage(topic: topic, message: message)
     }
 }
 

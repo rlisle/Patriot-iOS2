@@ -8,9 +8,7 @@
 //  that it implements using the published variables:
 //
 //      deviceNames     is a list of all the devices, types, and values exposed on the Photon
-//
-//      value(name: String) return the current device value
-//      type(name: String) returns the device type
+//                      format is T:Name=#
 //
 //  This file uses the Particle SDK:
 //      https://docs.particle.io/reference/ios/#common-tasks
