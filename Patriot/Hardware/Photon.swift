@@ -69,40 +69,24 @@ extension Photon    // Devices
         }
     }
     
-    
     private func parseDeviceNames(_ deviceString: String)
     {
         print("parseDeviceNames: \(deviceString)")
         let items = deviceString.components(separatedBy: ",")
         for item in items
         {
-            let lcDevice = item.localizedLowercase
-
-            getDeviceType(device: lcDevice) { (type) in
-                
-                self.getDevicePercent(device: lcDevice) { (percent) in
-                    print("getDevicePercent \(lcDevice) = \(percent)")
-                    let deviceInfo = DeviceInfo(name: lcDevice, type: type, percent: percent)
-                    self.devices.append(deviceInfo)
-                    self.delegate?.device(named: self.name, hasDevices: self.devices)
-                }
-            }
-        }
-    }
-    
-    func getDeviceType(device: String, completion: @escaping (DeviceType) -> Void)
-    {
-        callFunction(name: "type", args: [device]) { (result) in
-            let value = result ?? 0
-            completion(DeviceType(rawValue: value)!)
-        }
-    }
-    
-    func getDevicePercent(device: String, completion: @escaping (Int) -> Void)
-    {
-        callFunction(name: "value", args: [device]) { (result) in
-            let value = result ?? 0
-            completion(value)
+            // Format is now type:name=value ("P|C|L|S|:<name>=<0-255>")
+            let separatedByColon = item.components(separatedBy: ":")
+            let separatedByEquals = separatedByColon[1].components(separatedBy: "=")
+            
+            let deviceType = DeviceType(rawValue: separatedByColon[0]) ?? DeviceType.Unknown
+            let deviceName = separatedByEquals[0].localizedLowercase
+            let deviceValue = Int(separatedByEquals[1]) ?? 0
+            let deviceInfo = DeviceInfo(name: deviceName,
+                                        type: deviceType,
+                                        percent: deviceValue )
+            devices.append(deviceInfo)
+            delegate?.device(named: self.name, hasDevices: self.devices)
         }
     }
 }
