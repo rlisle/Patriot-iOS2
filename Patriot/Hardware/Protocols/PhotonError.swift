@@ -12,8 +12,6 @@ enum PhotonError : Error
 {
     case DeviceVariable
     case SupportedVariable
-    case ActivitiesVariable
-    case PublishVariable
     case ReadVariable
     case unknown
 }

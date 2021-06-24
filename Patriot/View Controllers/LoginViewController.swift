@@ -75,10 +75,10 @@ class LoginViewController: UIViewController {
                 
                 self.updateDisplay()
 
-                //Delay 1 second then switch to Activities display after auto logging in
+                //Delay 1 second then switch to Devices display after auto logging in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                     if let tabBarController = self.tabBarController as? TabBarController {
-                        tabBarController.selectActivitiesTab()
+                        tabBarController.selectDevicesTab()
                     }
                 }
             }

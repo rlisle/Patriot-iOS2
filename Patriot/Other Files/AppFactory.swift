@@ -34,15 +34,6 @@ class AppFactory
         viewController.mqttManager = mqttManager
     }
     
-    func configureActivities(viewController: ActivitiesViewController)
-    {
-        viewController.settings = settings
-        let activitiesDataManager = ActivitiesDataManager(hardware: hwManager)
-        viewController.dataManager = activitiesDataManager
-        hwManager.activityDelegate = activitiesDataManager
-        activitiesDataManager.delegate = viewController
-    }
-    
     func configureDevices(viewController: DevicesViewController)
     {
         viewController.settings = settings

@@ -4,16 +4,12 @@
 //
 //  This class provides the interface to a Photon microcontroller.
 //
-//  The Photon will be interrogated to identify the devices and activities
+//  The Photon will be interrogated to identify the devices
 //  that it implements using the published variables:
 //
-//      deviceNames     is a list of all the devices exposed on the Photon
-//      supportedNames  is a list of all activities supported by the Photon
-//      activities      is a list exposed by some Photons tracking current
-//                      activity state based on what it has heard.
-//                      TODO: switch to using the values function.
+//      deviceNames     is a list of all the devices, types, and values exposed on the Photon
 //
-//      value(name: String) return the current device/activity value
+//      value(name: String) return the current device value
 //      type(name: String) returns the device type
 //
 //  This file uses the Particle SDK:
@@ -32,8 +28,6 @@ class Photon: HwController
     let uninitializedString = "uninitialized"
     
     var devices: [DeviceInfo] = []      // Cached list of device names exposed by Photon
-    var activities: [ActivityInfo] = [] // Optional list of current activities and state
-    var publish: String                 // Publish event name that this device monitors
     
     var delegate: PhotonNotifying?      // Notifies manager when status changes
     
@@ -52,7 +46,6 @@ class Photon: HwController
     required init(device: ParticleDevice)
     {
         particleDevice  = device
-        publish         = uninitializedString
     }
 
     /**
@@ -60,9 +53,7 @@ class Photon: HwController
      */
     func refresh()
     {
-        readPublishName()
         refreshDevices()
-        refreshSupported()
     }
 }
 
@@ -116,54 +107,8 @@ extension Photon    // Devices
     }
 }
 
-extension Photon    // Activities
-{
-    func refreshSupported()
-    {
-        print("refreshSupported")
-        activities = []
-        return readVariable("Supported") { (result) in
-            if let result = result {
-                self.parseSupported(result)
-            }
-        }
-    }
-    
-    
-    private func parseSupported(_ supportedString: String)
-    {
-        print("parseSupported: \(supportedString)")
-        let items = supportedString.components(separatedBy: ",")
-        for item in items
-        {
-            let lcActivity = item.localizedLowercase
-            
-            getActivityState(activity: lcActivity) { (isActive) in
-                let activityInfo = ActivityInfo(name: lcActivity, isActive: isActive)
-                self.activities.append(activityInfo)
-                self.delegate?.device(named: self.name, hasActivities: self.activities)
-            }
-        }
-    }
-    
-    func getActivityState(activity: String, completion: @escaping (Bool) -> Void)
-    {
-        callFunction(name: "active", args: [activity]) { (result) in
-            let value = result ?? 0
-            completion(value > 0)
-        }
-    }
-}
-
 extension Photon        // Read variables
 {
-    func readPublishName()
-    {
-        readVariable("PublishName") { (result) in
-            self.publish = result ?? self.uninitializedString
-        }
-    }
-
     func readVariable(_ name: String, completion: @escaping (String?) -> Void)
     {
         guard particleDevice.variables[name] != nil else

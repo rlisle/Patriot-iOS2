@@ -13,7 +13,6 @@ import CocoaMQTT
 protocol MQTTSending
 {
     func sendMessage(topic: String, message: String)
-    func sendCommand(activity: String, isActive: Bool)
     func sendCommand(device: String, percent: Int)
 }
 
@@ -26,7 +25,7 @@ protocol MQTTReceiving
 
 class MQTTManager {
 
-    let mqttURL = "192.168.10.184" // was "rons-mac-mini"
+    let mqttURL = "192.168.50.33"   // was "rons-mac-mini"
     let mqttPort: UInt16 = 1883
     let mqttTopic = "#"             // For now we're receiving everything
     
@@ -52,12 +51,6 @@ extension MQTTManager: MQTTSending
         mqtt.publish(topic, withString: message)
     }
     
-    func sendCommand(activity: String, isActive: Bool)
-    {
-        let event = activity + ":" + (isActive ? "100" : "0")
-        sendMessage(topic: "patriot", message: event)
-    }
-
     func sendCommand(device: String, percent: Int)
     {
         let event = device + ":" + String(percent)

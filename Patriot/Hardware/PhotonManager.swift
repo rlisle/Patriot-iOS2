@@ -10,11 +10,6 @@
 //  When a new device is found, it will be added to the photons collection
 //  and a delegate called.
 //
-//  The current activity state will be gleaned from the exposed Activities
-//  properties of one or more Photons initially, but then tracked directly
-//  after initialization by subscribing to particle or MQTT events.
-//  TODO: convert to using the value() function
-//
 //  Subscribing to particle events will also allow detecting new Photons
 //  as they come online.
 //
@@ -32,7 +27,6 @@ class PhotonManager: NSObject
 {
     var subscribeHandler:  Any?                 // Particle.io subscribe handle
     var deviceDelegate:    DeviceNotifying?     // Reports changes to devices
-    var activityDelegate:  ActivityNotifying?   // Reports changes to activities
 
     var isLoggedIn = false
     
@@ -41,7 +35,6 @@ class PhotonManager: NSObject
     
     //TODO: make these calculated properties using aggregation of photons collection
     var devices: [DeviceInfo] = []
-    var activities:  [ActivityInfo] = []
 }
 
 extension PhotonManager: LoggingIn
@@ -171,8 +164,6 @@ extension PhotonManager: HwManager
                         let name = splitArray[0].lowercased()
                         if let percent: Int = Int(splitArray[1]), percent >= 0, percent <= 100
                         {
-                            //TODO: Currently can't tell if this is an activity or device
-                            self.activityDelegate?.activityChanged(name: name, isActive: percent != 0)
                             self.deviceDelegate?.deviceChanged(name: name, percent: percent)
                         }
                         else
@@ -199,16 +190,6 @@ extension PhotonManager: PhotonNotifying
             }
         }
         deviceDelegate?.deviceListChanged()
-    }
-    
-    func device(named: String, hasActivities: [ActivityInfo])
-    {
-        for activity in hasActivities {
-            if activity.name != "" && activities.contains(activity) == false {
-                activities.append(activity)
-            }
-        }
-        activityDelegate?.activitiesChanged()
     }
 }
 
