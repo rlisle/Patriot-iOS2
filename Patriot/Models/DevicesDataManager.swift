@@ -21,7 +21,7 @@ class DevicesDataManager
         self.hardware = hardware
         self.mqtt = mqtt
         
-        devices.append(Device(name: "office", percent: 0))
+        devices.append(Device(name: "office", percent: 0))  // Huh?
         
         refresh(devices: hardware.devices)
     }
