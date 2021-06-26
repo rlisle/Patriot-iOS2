@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DevicesDataManager
+class DevicesManager
 {
     var devices:        [ Device ] = []
     let photonManager:  PhotonManager
@@ -61,7 +61,7 @@ class DevicesDataManager
 
 //MARK: Helper Methods
 
-extension DevicesDataManager
+extension DevicesManager
 {
     func refresh(devices: [DeviceInfo])
     {
@@ -77,7 +77,7 @@ extension DevicesDataManager
 }
 
 
-extension DevicesDataManager: DeviceNotifying
+extension DevicesManager: DeviceNotifying
 {
     func deviceListChanged()
     {

@@ -1,5 +1,5 @@
 //
-//  DeviceModel.swift
+//  Device.swift
 //  Patriot
 //
 //  Created by Ron Lisle on 5/31/18.

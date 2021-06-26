@@ -12,7 +12,7 @@ private let reuseIdentifier = "DeviceCell"
 
 class DevicesViewController: UICollectionViewController {
 
-    var dataManager: DevicesDataManager?
+    var dataManager: DevicesManager?
     var settings: Settings?
     
     override func viewDidLoad() {

@@ -82,7 +82,7 @@ extension MQTTManager: CocoaMQTTDelegate {
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
-        print("MQTT didPublishMessage: \(message.topic), \(message.string)")
+        print("MQTT didPublishMessage: \(message.topic), \(String(describing: message.string))")
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didPublishAck id: UInt16) {
