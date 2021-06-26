@@ -17,9 +17,10 @@ class DevicesManager
     
     init(photonManager: PhotonManager, mqtt: MQTTManager)
     {
-        print("DevicesDataManager init")
+        print("DevicesManager init")
         self.photonManager = photonManager
         self.mqtt = mqtt
+        mqtt.deviceDelegate = self
         
         devices.append(Device(name: "office", percent: 0))  // Huh?
         
@@ -43,7 +44,7 @@ class DevicesManager
     
     func setDevice(at: Int, percent: Int)
     {
-        print("DM set device at: \(at) to \(percent)")
+        print("DevicesManager set device at: \(at) to \(percent)")
         devices[at].percent = percent
         let name = devices[at].name
         if mqtt.isConnected {
@@ -57,7 +58,6 @@ class DevicesManager
         }
     }
 }
-
 
 //MARK: Helper Methods
 
@@ -81,7 +81,7 @@ extension DevicesManager: DeviceNotifying
 {
     func deviceListChanged()
     {
-        print("DevicesDataManager deviceListChanged")
+        print("DevicesManager deviceListChanged")
         let list = photonManager.devices
         refresh(devices: list)
     }
@@ -89,7 +89,7 @@ extension DevicesManager: DeviceNotifying
 
     func deviceChanged(name: String, percent: Int)
     {
-        print("DeviceDataManager: DeviceChanged: \(name)")
+        print("DeviceManager: DeviceChanged: \(name)")
         if let index = devices.firstIndex(where: {$0.name == name})
         {
             print("   index of device = \(index)")

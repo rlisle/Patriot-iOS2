@@ -37,10 +37,10 @@ class AppFactory
     func configureDevices(viewController: DevicesViewController)
     {
         viewController.settings = settings
-        let devicesDataManager = DevicesManager(photonManager: photonManager, mqtt: mqttManager)
-        viewController.dataManager = devicesDataManager
-        photonManager.deviceDelegate = devicesDataManager
-        devicesDataManager.delegate = viewController
+        let devicesManager = DevicesManager(photonManager: photonManager, mqtt: mqttManager)
+        viewController.deviceManager = devicesManager
+        photonManager.deviceDelegate = devicesManager
+        devicesManager.delegate = viewController
     }
 
 }

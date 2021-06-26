@@ -12,7 +12,7 @@ private let reuseIdentifier = "DeviceCell"
 
 class DevicesViewController: UICollectionViewController {
 
-    var dataManager: DevicesManager?
+    var deviceManager: DevicesManager?
     var settings: Settings?
     
     override func viewDidLoad() {
@@ -23,7 +23,7 @@ class DevicesViewController: UICollectionViewController {
         {
             //TODO: inject factory into init
             appDelegate.appFactory?.configureDevices(viewController: self)
-            print("Number of devices: \(dataManager!.devices.count)")
+            print("Number of devices: \(deviceManager!.devices.count)")
         }
     }
 
@@ -31,7 +31,7 @@ class DevicesViewController: UICollectionViewController {
     {
         if let index = gestureRecognizer.view?.tag
         {
-            dataManager?.toggleDevice(at: index)
+            deviceManager?.toggleDevice(at: index)
         }
     }
 
@@ -43,7 +43,7 @@ class DevicesViewController: UICollectionViewController {
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let numberOfDevices = dataManager?.devices.count ?? 0
+        let numberOfDevices = deviceManager?.devices.count ?? 0
         print("Devices: number of items = \(numberOfDevices)")
         return numberOfDevices
     }
@@ -54,7 +54,7 @@ class DevicesViewController: UICollectionViewController {
     
         styleCell(cell)
 
-        if let devices = dataManager?.devices, devices.count > indexPath.row
+        if let devices = deviceManager?.devices, devices.count > indexPath.row
         {
             let device = devices[indexPath.row];
             if let cell = cell as? DevicesCollectionViewCell
@@ -155,7 +155,7 @@ extension DevicesViewController: DeviceNotifying {
     
     func deviceChanged(name: String, percent: Int) {
         print("deviceChanged: \(name), \(percent)")
-        if let index = dataManager?.devices.firstIndex(where: {$0.name == name})
+        if let index = deviceManager?.devices.firstIndex(where: {$0.name == name})
         {
             print("   index of deviceChanged = \(index)")
             collectionView?.reloadItems(at: [IndexPath(row: index, section: 0)])

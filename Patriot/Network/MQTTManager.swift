@@ -34,6 +34,7 @@ class MQTTManager {
     var isConnected: Bool = false
     
     var delegate: MQTTReceiving?
+    var deviceDelegate: DeviceNotifying?
     
     init() {
         let clientID = "Patriot" + String(ProcessInfo().processIdentifier)
@@ -66,6 +67,25 @@ extension MQTTManager: CocoaMQTTDelegate {
             let topic = message.topic
             print("MQTT didReceiveMessage: \(topic), \(payload)")
             delegate?.didReceiveMessage(topic: topic, message: payload)
+
+            // Parse out device commands
+            let splitTopic = topic.components(separatedBy: "/")
+            guard splitTopic.count >= 2 else {
+                print("MQTT Invalid topic: \(topic)")
+                return
+            }
+            
+            let name = splitTopic[1].lowercased()
+            if let percent: Int = Int(payload), percent >= 0, percent <= 100
+            {
+                self.deviceDelegate?.deviceChanged(name: name, percent: percent)
+            }
+            else
+            {
+                print("Event data is not a valid number: \(payload)")
+            }
+
+            
         }
     }
     
