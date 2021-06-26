@@ -22,7 +22,7 @@ class DevicesManager
         self.mqtt = mqtt
         mqtt.deviceDelegate = self
         
-        devices.append(Device(name: "office", percent: 0))  // Huh?
+        devices.append(Device(name: "office", type: .Light, percent: 0))  // Huh?
         
         refresh(devices: photonManager.devices)
     }
@@ -69,8 +69,9 @@ extension DevicesManager
         for device in devices
         {
             let name = device.name
+            let type = device.type
             let percent = device.percent
-            self.devices.append(Device(name: name, percent: percent))
+            self.devices.append(Device(name: name, type: type, percent: percent))
         }
         delegate?.deviceListChanged()
     }
