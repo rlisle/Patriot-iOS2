@@ -47,7 +47,7 @@ class DevicesDataManager
         devices[at].percent = percent
         let name = devices[at].name
         if mqtt.isConnected {
-            mqtt.sendCommand(device: name, percent: percent)
+            mqtt.sendPatriotMessage(device: name, percent: percent)
         } else {
             hardware.sendCommand(device: name, percent: percent) { (error) in
                 if let error = error {

@@ -13,7 +13,7 @@ import CocoaMQTT
 protocol MQTTSending
 {
     func sendMessage(topic: String, message: String)
-    func sendCommand(device: String, percent: Int)
+    func sendPatriotMessage(device: String, percent: Int)
 }
 
 // This protocol provides notifications of MQTT events to a delegate
@@ -51,7 +51,7 @@ extension MQTTManager: MQTTSending
         mqtt.publish(topic, withString: message)
     }
     
-    func sendCommand(device: String, percent: Int)
+    func sendPatriotMessage(device: String, percent: Int)
     {
         let topic = "patriot/"+device
         let message = String(percent)
@@ -82,7 +82,7 @@ extension MQTTManager: CocoaMQTTDelegate {
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
-        print("MQTT didPublishMessage: \(message), id: \(id)")
+        print("MQTT didPublishMessage: \(message.topic), \(message.string)")
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didPublishAck id: UInt16) {

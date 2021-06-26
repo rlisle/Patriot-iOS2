@@ -153,18 +153,27 @@ extension PhotonManager: HwManager
             else
             {
                 DispatchQueue.main.async(execute: {
-                    //TODO: convert to new format
-                    if let eventData = event?.data {
-                        let splitArray = eventData.components(separatedBy: ":")
-                        let name = splitArray[0].lowercased()
-                        if let percent: Int = Int(splitArray[1]), percent >= 0, percent <= 100
-                        {
-                            self.deviceDelegate?.deviceChanged(name: name, percent: percent)
-                        }
-                        else
-                        {
-                            print("Event data is not a valid number")
-                        }
+                    //TODO: convert to new format. event._event = patriot/<devicename>, event._data = message
+                    guard let eventMessage = event?.data,
+                          let eventTopic = event?.event else {
+                        print("MQTT received event with missing data")
+                        return
+                    }
+                        
+                    let splitTopic = eventTopic.components(separatedBy: "/")
+                    guard splitTopic.count >= 2 else {
+                        print("Invalid topic: \(eventTopic)")
+                        return
+                    }
+                    
+                    let name = splitTopic[1].lowercased()
+                    if let percent: Int = Int(eventMessage), percent >= 0, percent <= 100
+                    {
+                        self.deviceDelegate?.deviceChanged(name: name, percent: percent)
+                    }
+                    else
+                    {
+                        print("Event data is not a valid number: \(eventMessage)")
                     }
                     
                 })
