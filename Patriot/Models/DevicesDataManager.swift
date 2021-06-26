@@ -11,19 +11,19 @@ import UIKit
 class DevicesDataManager
 {
     var devices:        [ Device ] = []
-    let hardware:       PhotonManager
+    let photonManager:  PhotonManager
     let mqtt:           MQTTManager
     weak var delegate:  DeviceNotifying?
     
-    init(hardware: PhotonManager, mqtt: MQTTManager)
+    init(photonManager: PhotonManager, mqtt: MQTTManager)
     {
         print("DevicesDataManager init")
-        self.hardware = hardware
+        self.photonManager = photonManager
         self.mqtt = mqtt
         
         devices.append(Device(name: "office", percent: 0))  // Huh?
         
-        refresh(devices: hardware.devices)
+        refresh(devices: photonManager.devices)
     }
 
 
@@ -49,7 +49,7 @@ class DevicesDataManager
         if mqtt.isConnected {
             mqtt.sendPatriotMessage(device: name, percent: percent)
         } else {
-            hardware.sendCommand(device: name, percent: percent) { (error) in
+            photonManager.sendCommand(device: name, percent: percent) { (error) in
                 if let error = error {
                     print("Send command error: \(error)")
                 }
@@ -82,7 +82,7 @@ extension DevicesDataManager: DeviceNotifying
     func deviceListChanged()
     {
         print("DevicesDataManager deviceListChanged")
-        let list = hardware.devices
+        let list = photonManager.devices
         refresh(devices: list)
     }
 

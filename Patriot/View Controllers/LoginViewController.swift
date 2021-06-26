@@ -17,7 +17,7 @@ class LoginViewController: UIViewController {
 
     // Set by AppFactory
     var settings: Settings!
-    var loginManager: LoggingIn!
+    var loginManager: PhotonManager!
     var mqttManager: MQTTManager!
     
     var user: String?

@@ -36,7 +36,7 @@ class PhotonManager: NSObject
     var devices: [DeviceInfo] = []
 }
 
-extension PhotonManager: LoggingIn
+extension PhotonManager
 {
     /**
      * Login to the particle.io account
