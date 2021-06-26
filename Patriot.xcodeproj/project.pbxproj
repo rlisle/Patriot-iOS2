@@ -29,8 +29,6 @@
 		E46D2A4720C01EEB0084C576 /* DevicesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46D2A4520C01EEB0084C576 /* DevicesDataManager.swift */; };
 		E4C283EA20BB554E00C98A43 /* Photon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283E720BB554E00C98A43 /* Photon.swift */; };
 		E4C283EC20BB554E00C98A43 /* DeviceNotifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283E920BB554E00C98A43 /* DeviceNotifying.swift */; };
-		E4C283EF20BB55CA00C98A43 /* HwController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283ED20BB55CA00C98A43 /* HwController.swift */; };
-		E4C283F020BB55CA00C98A43 /* HwManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283EE20BB55CA00C98A43 /* HwManager.swift */; };
 		E4C283F220BB561A00C98A43 /* PhotonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283F120BB561A00C98A43 /* PhotonManager.swift */; };
 		E4C283F420BC136100C98A43 /* AppFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C283F320BC136100C98A43 /* AppFactory.swift */; };
 		E4C93C4820B6DF1600FBA4FD /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C93C4720B6DF1600FBA4FD /* SettingsStore.swift */; };
@@ -75,8 +73,6 @@
 		E46D2A4520C01EEB0084C576 /* DevicesDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevicesDataManager.swift; sourceTree = "<group>"; };
 		E4C283E720BB554E00C98A43 /* Photon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photon.swift; sourceTree = "<group>"; };
 		E4C283E920BB554E00C98A43 /* DeviceNotifying.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceNotifying.swift; sourceTree = "<group>"; };
-		E4C283ED20BB55CA00C98A43 /* HwController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HwController.swift; sourceTree = "<group>"; };
-		E4C283EE20BB55CA00C98A43 /* HwManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HwManager.swift; sourceTree = "<group>"; };
 		E4C283F120BB561A00C98A43 /* PhotonManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotonManager.swift; sourceTree = "<group>"; };
 		E4C283F320BC136100C98A43 /* AppFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFactory.swift; sourceTree = "<group>"; };
 		E4C93C4720B6DF1600FBA4FD /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
@@ -215,8 +211,6 @@
 			isa = PBXGroup;
 			children = (
 				E4C283E920BB554E00C98A43 /* DeviceNotifying.swift */,
-				E4C283ED20BB55CA00C98A43 /* HwController.swift */,
-				E4C283EE20BB55CA00C98A43 /* HwManager.swift */,
 				87162D9920A9BACE00861C89 /* LoggingIn.swift */,
 				E46D2A3C20BEECC50084C576 /* PhotonNotifying.swift */,
 				E412051D20C30B1100F3BAEC /* DeviceType.swift */,
@@ -392,10 +386,8 @@
 				E4C283F420BC136100C98A43 /* AppFactory.swift in Sources */,
 				6C215890215C47ED00799AEF /* MQTTManager.swift in Sources */,
 				E46D2A4220C01B370084C576 /* DevicesCollectionViewCell.swift in Sources */,
-				E4C283F020BB55CA00C98A43 /* HwManager.swift in Sources */,
 				E46D2A3D20BEECC50084C576 /* PhotonNotifying.swift in Sources */,
 				E46D2A4720C01EEB0084C576 /* DevicesDataManager.swift in Sources */,
-				E4C283EF20BB55CA00C98A43 /* HwController.swift in Sources */,
 				E46D2A3F20BEFD7B0084C576 /* PhotonError.swift in Sources */,
 				E46D2A4620C01EEB0084C576 /* DeviceModel.swift in Sources */,
 				E412051E20C30B1100F3BAEC /* DeviceType.swift in Sources */,

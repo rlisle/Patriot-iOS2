@@ -21,7 +21,7 @@ import Foundation
 import Particle_SDK
 
 
-class Photon: HwController
+class Photon
 {
     let uninitializedString = "uninitialized"
     

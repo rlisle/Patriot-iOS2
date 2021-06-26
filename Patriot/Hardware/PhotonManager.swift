@@ -71,7 +71,7 @@ extension PhotonManager: LoggingIn
 }
 
 
-extension PhotonManager: HwManager
+extension PhotonManager
 {
     /**
      * Locate all the particle.io devices

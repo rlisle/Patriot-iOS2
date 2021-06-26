@@ -15,14 +15,14 @@ import UIKit
 class AppFactory
 {
     let window: UIWindow
-    let hwManager: PhotonManager
+    let photonManager: PhotonManager
     let mqttManager: MQTTManager
     let settings: Settings
     
     init(window: UIWindow)
     {
         self.window = window
-        hwManager = PhotonManager()
+        photonManager = PhotonManager()
         mqttManager = MQTTManager()
         settings = Settings(store: UserDefaultsSettingsStore())
     }
@@ -30,16 +30,16 @@ class AppFactory
     func configureLogin(viewController: LoginViewController)
     {
         viewController.settings = settings
-        viewController.loginManager = hwManager
+        viewController.loginManager = photonManager
         viewController.mqttManager = mqttManager
     }
     
     func configureDevices(viewController: DevicesViewController)
     {
         viewController.settings = settings
-        let devicesDataManager = DevicesDataManager(hardware: hwManager, mqtt: mqttManager)
+        let devicesDataManager = DevicesDataManager(hardware: photonManager, mqtt: mqttManager)
         viewController.dataManager = devicesDataManager
-        hwManager.deviceDelegate = devicesDataManager
+        photonManager.deviceDelegate = devicesDataManager
         devicesDataManager.delegate = viewController
     }
 

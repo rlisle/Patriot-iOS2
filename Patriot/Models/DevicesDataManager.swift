@@ -11,11 +11,11 @@ import UIKit
 class DevicesDataManager
 {
     var devices:        [ Device ] = []
-    let hardware:       HwManager
+    let hardware:       PhotonManager
     let mqtt:           MQTTManager
     weak var delegate:  DeviceNotifying?
     
-    init(hardware: HwManager, mqtt: MQTTManager)
+    init(hardware: PhotonManager, mqtt: MQTTManager)
     {
         print("DevicesDataManager init")
         self.hardware = hardware
