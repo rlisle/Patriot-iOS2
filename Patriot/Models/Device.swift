@@ -16,7 +16,7 @@ class Device
     var offImage:   UIImage
     var type:       DeviceType
     var percent:    Int
-    var isFavorite: Bool?
+    var isFavorite: Bool = false
     
     init(name: String, type: DeviceType, percent: Int = 0) {
         self.name    = name

@@ -27,14 +27,6 @@ class DevicesViewController: UICollectionViewController {
         }
     }
 
-    @objc func tap(_ gestureRecognizer: UIGestureRecognizer)
-    {
-        if let index = gestureRecognizer.view?.tag
-        {
-            deviceManager?.toggleDevice(at: index)
-        }
-    }
-
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -59,18 +51,8 @@ class DevicesViewController: UICollectionViewController {
             let device = devices[indexPath.row];
             if let cell = cell as? DevicesCollectionViewCell
             {
-                print("Cell device \(device.name) is \(device.percent)%")
-                let isOn = device.percent > 0
-                let image = isOn ? device.onImage : device.offImage
-                cell.imageView.image = image
-                
-                let caption = device.name.capitalized
-                cell.label.text = caption
-                
+                cell.configure(device: device, delegate: self)
                 cell.tag = indexPath.row
-                
-                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tap(_: )))
-                cell.addGestureRecognizer(tapGesture)
             }
         }
         
@@ -91,6 +73,11 @@ class DevicesViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDelegate
 
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        deviceManager?.toggleDevice(at: indexPath.row)
+        collectionView.reloadData()
+    }
+    
     /*
     // Uncomment this method to specify if the specified item should be highlighted during tracking
     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
@@ -160,5 +147,11 @@ extension DevicesViewController: DeviceNotifying {
             print("   index of deviceChanged = \(index)")
             collectionView?.reloadItems(at: [IndexPath(row: index, section: 0)])
         }
+    }
+}
+
+extension DevicesViewController: FavoriteNotifying {
+    func favoriteChanged(device: Device) {
+        collectionView?.reloadData()
     }
 }
