@@ -14,14 +14,20 @@ import UIKit
 
 class TabBarController: UITabBarController {
 
-    let devicesIndex = 0
-    let loginIndex = 1
+    let favoritesIndex = 0
+    let devicesIndex = 1
+    let loginIndex = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         delegate = self
         selectedIndex = loginIndex
+    }
+    
+    func selectFavoritesTab() {
+        print("selectFavoritesTab")
+        animateToTab(toIndex: favoritesIndex)
     }
     
     func selectDevicesTab() {

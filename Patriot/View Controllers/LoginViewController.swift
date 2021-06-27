@@ -78,7 +78,7 @@ class LoginViewController: UIViewController {
                 //Delay 1 second then switch to Devices display after auto logging in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                     if let tabBarController = self.tabBarController as? TabBarController {
-                        tabBarController.selectDevicesTab()
+                        tabBarController.selectFavoritesTab()
                     }
                 }
             }

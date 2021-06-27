@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27DCB0062688AA5E00CBD08D /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DCB0052688AA5E00CBD08D /* FavoritesViewController.swift */; };
 		5C8A826F43924A9778C3BA8D /* Pods_Patriot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858AE478E867C8CF6049C310 /* Pods_Patriot.framework */; };
 		6C215890215C47ED00799AEF /* MQTTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C21588D215C47ED00799AEF /* MQTTManager.swift */; };
 		8781D5F620AA4D4200E74AEE /* UserPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8781D5F520AA4D4200E74AEE /* UserPasswordViewController.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		27DCB0052688AA5E00CBD08D /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		49BA38A8CB7EA2695BCF157B /* Pods-Patriot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Patriot.release.xcconfig"; path = "Pods/Target Support Files/Pods-Patriot/Pods-Patriot.release.xcconfig"; sourceTree = "<group>"; };
 		5C49CBFF15A2F15F58C31F8F /* Pods-Patriot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Patriot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Patriot/Pods-Patriot.debug.xcconfig"; sourceTree = "<group>"; };
 		6C21588D215C47ED00799AEF /* MQTTManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MQTTManager.swift; path = Patriot/Network/MQTTManager.swift; sourceTree = SOURCE_ROOT; };
@@ -117,9 +119,10 @@
 			children = (
 				E46D2A4020C01B370084C576 /* DevicesCollectionViewCell.swift */,
 				E46D2A4120C01B370084C576 /* DevicesViewController.swift */,
+				27DCB0052688AA5E00CBD08D /* FavoritesViewController.swift */,
 				E4362E2A20A9A918006C1405 /* LoginViewController.swift */,
-				8781D5F520AA4D4200E74AEE /* UserPasswordViewController.swift */,
 				E400717920BAC98800DC9A8D /* TabBarController.swift */,
+				8781D5F520AA4D4200E74AEE /* UserPasswordViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				E412051E20C30B1100F3BAEC /* DeviceType.swift in Sources */,
 				E412052420C30E5D00F3BAEC /* ParticleSDKError.swift in Sources */,
 				8781D5F620AA4D4200E74AEE /* UserPasswordViewController.swift in Sources */,
+				27DCB0062688AA5E00CBD08D /* FavoritesViewController.swift in Sources */,
 				E412052020C30B3B00F3BAEC /* DeviceInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

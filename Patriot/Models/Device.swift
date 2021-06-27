@@ -16,6 +16,7 @@ class Device
     var offImage:   UIImage
     var type:       DeviceType
     var percent:    Int
+    var isFavorite: Bool?
     
     init(name: String, type: DeviceType, percent: Int = 0) {
         self.name    = name
@@ -33,5 +34,11 @@ class Device
             self.onImage = #imageLiteral(resourceName: "LightOn")
             self.offImage = #imageLiteral(resourceName: "LightOff")
         }
+    }
+}
+
+extension Device: Equatable {
+    static func == (lhs: Device, rhs: Device) -> Bool {
+        return lhs.name == rhs.name && lhs.type == rhs.type
     }
 }

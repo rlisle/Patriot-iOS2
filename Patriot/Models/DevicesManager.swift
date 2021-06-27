@@ -14,7 +14,11 @@ class DevicesManager
     let photonManager:  PhotonManager
     let mqtt:           MQTTManager
     weak var delegate:  DeviceNotifying?
-    
+
+    var favorites: [ Device ] {
+        return devices.filter { $0.isFavorite == true }
+    }
+
     init(photonManager: PhotonManager, mqtt: MQTTManager)
     {
         print("DevicesManager init")
@@ -41,6 +45,26 @@ class DevicesManager
         setDevice(at: at, percent: isOn ? 0 : 100)
     }
 
+    func toggleFavorite(at: Int)
+    {
+        if let index = favoriteDeviceIndex(at: at) {
+            toggleDevice(at: index)
+        } else {
+            print("favorite device not found for index \(at) == \(String(describing: index))")
+        }
+    }
+
+    func favoriteDeviceIndex(at: Int) -> Int? {
+        guard at < favorites.count else {
+            return nil
+        }
+        let device = favorites[at]
+        return indexOfDevice(device)
+    }
+
+    func indexOfDevice(_ device: Device) -> Int? {
+        return devices.firstIndex(of: device) // { $0 == device }
+    }
     
     func setDevice(at: Int, percent: Int)
     {

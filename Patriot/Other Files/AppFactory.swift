@@ -43,4 +43,13 @@ class AppFactory
         devicesManager.delegate = viewController
     }
 
+    func configureFavorites(viewController: FavoritesViewController)
+    {
+        viewController.settings = settings
+        let devicesManager = DevicesManager(photonManager: photonManager, mqtt: mqttManager)
+        viewController.deviceManager = devicesManager
+        photonManager.deviceDelegate = devicesManager
+        devicesManager.delegate = viewController
+    }
+
 }

@@ -21,6 +21,7 @@
                         <color key="selectedImageTintColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
+                        <segue destination="0tG-8p-Fcn" kind="relationship" relationship="viewControllers" id="FzJ-hv-pJv"/>
                         <segue destination="Q18-wK-C6R" kind="relationship" relationship="viewControllers" id="hjs-oz-crX"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="FZZ-WW-Kwy"/>
                     </connections>
@@ -254,11 +255,71 @@
             </objects>
             <point key="canvasLocation" x="-86" y="572"/>
         </scene>
+        <!--Devices-->
+        <scene sceneID="pNs-BP-rED">
+            <objects>
+                <collectionViewController title="Devices" id="0tG-8p-Fcn" customClass="FavoritesViewController" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="ZUZ-Yz-efp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Fao-7j-trL">
+                            <size key="itemSize" width="160" height="141"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DeviceCell" id="6Tz-nd-DE6" customClass="DevicesCollectionViewCell" customModule="Patriot" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="160" height="141"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="160" height="141"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ciu-cq-bo1">
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="141"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bMW-A7-WW5">
+                                            <rect key="frame" x="0.0" y="127.5" width="160" height="13.5"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="Ciu-cq-bo1" firstAttribute="leading" secondItem="6Tz-nd-DE6" secondAttribute="leading" id="3v2-Zi-WRU"/>
+                                    <constraint firstItem="bMW-A7-WW5" firstAttribute="leading" secondItem="6Tz-nd-DE6" secondAttribute="leading" id="6ta-f0-5XQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="bMW-A7-WW5" secondAttribute="bottom" id="gU1-05-jgh"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ciu-cq-bo1" secondAttribute="bottom" id="nVq-Ne-prk"/>
+                                    <constraint firstAttribute="trailing" secondItem="bMW-A7-WW5" secondAttribute="trailing" id="r9e-ZB-bgK"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ciu-cq-bo1" secondAttribute="trailing" id="vwG-mB-Bp0"/>
+                                    <constraint firstItem="Ciu-cq-bo1" firstAttribute="top" secondItem="6Tz-nd-DE6" secondAttribute="top" id="xKw-BN-Lbe"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="imageView" destination="Ciu-cq-bo1" id="SgG-5Z-MK2"/>
+                                    <outlet property="label" destination="bMW-A7-WW5" id="Exs-Pe-9fD"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="0tG-8p-Fcn" id="hmD-QO-xsL"/>
+                            <outlet property="delegate" destination="0tG-8p-Fcn" id="UKJ-JS-mEh"/>
+                        </connections>
+                    </collectionView>
+                    <tabBarItem key="tabBarItem" title="Favorites" image="star.fill" catalog="system" id="3fA-0Q-ivL"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cfw-Gc-lmt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-967" y="-939"/>
+        </scene>
     </scenes>
     <resources>
         <image name="DevicesTabBarIcon" width="30" height="30"/>
         <image name="LightOff" width="250" height="250"/>
         <image name="LoginTabBarIcon" width="30" height="30"/>
+        <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
