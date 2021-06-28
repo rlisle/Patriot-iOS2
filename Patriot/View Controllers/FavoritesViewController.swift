@@ -55,7 +55,7 @@ class FavoritesViewController: UICollectionViewController {
         if let favorites = deviceManager?.favorites, favorites.count > indexPath.row
         {
             let favorite = favorites[indexPath.row];
-            if let cell = cell as? DevicesCollectionViewCell
+            if let cell = cell as? FavoritesCollectionViewCell
             {
                 cell.configure(device: favorite, delegate: self)
                 cell.tag = indexPath.row
