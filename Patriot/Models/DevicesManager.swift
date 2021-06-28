@@ -1,5 +1,5 @@
 //
-//  DevicesDataManager.swift
+//  DevicesManager.swift
 //  Patriot
 //
 //  Created by Ron Lisle on 5/31/18.

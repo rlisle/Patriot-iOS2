@@ -30,7 +30,7 @@ class DevicesCollectionViewCell: UICollectionViewCell
         if #available(iOS 13.0, *) {
             let favoriteName = "star.fill"
             let notFavoriteName = "star"
-            favorite.image = UIImage(systemName: device.isFavorite ? favoriteName : notFavoriteName)
+            favorite?.image = UIImage(systemName: device.isFavorite ? favoriteName : notFavoriteName)
         }
 
         let favoriteTapGesture = UITapGestureRecognizer(target: self, action: #selector(favoriteTapped(_:)))

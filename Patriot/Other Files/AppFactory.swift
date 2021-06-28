@@ -17,6 +17,7 @@ class AppFactory
     let window: UIWindow
     let photonManager: PhotonManager
     let mqttManager: MQTTManager
+    let devicesManager: DevicesManager
     let settings: Settings
     
     init(window: UIWindow)
@@ -24,6 +25,8 @@ class AppFactory
         self.window = window
         photonManager = PhotonManager()
         mqttManager = MQTTManager()
+        devicesManager = DevicesManager(photonManager: photonManager, mqtt: mqttManager)
+        photonManager.deviceDelegate = devicesManager   // retain cycle?
         settings = Settings(store: UserDefaultsSettingsStore())
     }
     
@@ -37,19 +40,15 @@ class AppFactory
     func configureDevices(viewController: DevicesViewController)
     {
         viewController.settings = settings
-        let devicesManager = DevicesManager(photonManager: photonManager, mqtt: mqttManager)
         viewController.deviceManager = devicesManager
-        photonManager.deviceDelegate = devicesManager
-        devicesManager.delegate = viewController
+        devicesManager.delegate = viewController        // Uh-oh, can't have 2 delegates, so need to do this is viewDidLoad
     }
 
     func configureFavorites(viewController: FavoritesViewController)
     {
         viewController.settings = settings
-        let devicesManager = DevicesManager(photonManager: photonManager, mqtt: mqttManager)
         viewController.deviceManager = devicesManager
-        photonManager.deviceDelegate = devicesManager
-        devicesManager.delegate = viewController
+        devicesManager.delegate = viewController        // Uh-oh, can't have 2 delegates
     }
 
 }
