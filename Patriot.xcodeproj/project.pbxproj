@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		27DCB0062688AA5E00CBD08D /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DCB0052688AA5E00CBD08D /* FavoritesViewController.swift */; };
+		27DCB0082689E9C300CBD08D /* FavoritesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DCB0072689E9C300CBD08D /* FavoritesCollectionViewCell.swift */; };
 		5C8A826F43924A9778C3BA8D /* Pods_Patriot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858AE478E867C8CF6049C310 /* Pods_Patriot.framework */; };
 		6C215890215C47ED00799AEF /* MQTTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C21588D215C47ED00799AEF /* MQTTManager.swift */; };
 		8781D5F620AA4D4200E74AEE /* UserPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8781D5F520AA4D4200E74AEE /* UserPasswordViewController.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		27DCB0052688AA5E00CBD08D /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		27DCB0072689E9C300CBD08D /* FavoritesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesCollectionViewCell.swift; sourceTree = "<group>"; };
 		49BA38A8CB7EA2695BCF157B /* Pods-Patriot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Patriot.release.xcconfig"; path = "Pods/Target Support Files/Pods-Patriot/Pods-Patriot.release.xcconfig"; sourceTree = "<group>"; };
 		5C49CBFF15A2F15F58C31F8F /* Pods-Patriot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Patriot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Patriot/Pods-Patriot.debug.xcconfig"; sourceTree = "<group>"; };
 		6C21588D215C47ED00799AEF /* MQTTManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MQTTManager.swift; path = Patriot/Network/MQTTManager.swift; sourceTree = SOURCE_ROOT; };
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				E46D2A4020C01B370084C576 /* DevicesCollectionViewCell.swift */,
+				27DCB0072689E9C300CBD08D /* FavoritesCollectionViewCell.swift */,
 				E46D2A4120C01B370084C576 /* DevicesViewController.swift */,
 				27DCB0052688AA5E00CBD08D /* FavoritesViewController.swift */,
 				E4362E2A20A9A918006C1405 /* LoginViewController.swift */,
@@ -388,6 +391,7 @@
 				E46D2A3D20BEECC50084C576 /* PhotonNotifying.swift in Sources */,
 				E46D2A4720C01EEB0084C576 /* DevicesManager.swift in Sources */,
 				E46D2A3F20BEFD7B0084C576 /* PhotonError.swift in Sources */,
+				27DCB0082689E9C300CBD08D /* FavoritesCollectionViewCell.swift in Sources */,
 				E46D2A4620C01EEB0084C576 /* Device.swift in Sources */,
 				E412051E20C30B1100F3BAEC /* DeviceType.swift in Sources */,
 				E412052420C30E5D00F3BAEC /* ParticleSDKError.swift in Sources */,

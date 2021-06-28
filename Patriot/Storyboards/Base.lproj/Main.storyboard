@@ -282,7 +282,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DeviceCell" id="6Tz-nd-DE6" customClass="DevicesCollectionViewCell" customModule="Patriot" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DeviceCell" id="6Tz-nd-DE6" customClass="FavoritesCollectionViewCell" customModule="Patriot" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="160" height="141"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -320,7 +320,7 @@
                                     <constraint firstItem="Ciu-cq-bo1" firstAttribute="top" secondItem="6Tz-nd-DE6" secondAttribute="top" id="xKw-BN-Lbe"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="imageView" destination="Ciu-cq-bo1" id="SgG-5Z-MK2"/>
+                                    <outlet property="imageView" destination="Ciu-cq-bo1" id="phR-pa-Ndh"/>
                                     <outlet property="label" destination="bMW-A7-WW5" id="Exs-Pe-9fD"/>
                                 </connections>
                             </collectionViewCell>
