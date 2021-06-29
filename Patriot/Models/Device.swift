@@ -8,21 +8,28 @@
 
 import UIKit
 
+protocol DeviceDelegate: AnyObject {
+    func devicePercentChanged(name: String, type: DeviceType, percent: Int)
+    func isFavoriteChanged(name: String, type: DeviceType, isFavorite: Bool)
+}
 
 class Device
 {
-    let name:       String
-    var onImage:    UIImage
-    var offImage:   UIImage
-    var type:       DeviceType
-    var percent:    Int
-    var isFavorite: Bool = false
+    let name:          String
+    var onImage:       UIImage
+    var offImage:      UIImage
+    var type:          DeviceType
+    var percent:       Int             = 0
+    var isFavorite:    Bool            = false
+    weak var delegate: DeviceDelegate? = nil
     
-    init(name: String, type: DeviceType, percent: Int = 0) {
-        self.name    = name
-        self.percent = percent
-        self.type    = type
-        //TODO: Set appropriate image based on type
+    init(name: String, type: DeviceType) {
+        self.name       = name
+        self.type       = type
+//        setImagesFor(type: type)
+//    }
+//
+//    func setImagesFor(type: DeviceType) {
         switch type {
         case .Curtain:
             self.onImage = #imageLiteral(resourceName: "CurtainOpen")

@@ -23,11 +23,11 @@ class AppFactory
     init(window: UIWindow)
     {
         self.window = window
+        settings = Settings(store: UserDefaultsSettingsStore())
         photonManager = PhotonManager()
         mqttManager = MQTTManager()
-        devicesManager = DevicesManager(photonManager: photonManager, mqtt: mqttManager)
+        devicesManager = DevicesManager(photonManager: photonManager, mqtt: mqttManager, settings: settings)
         photonManager.deviceDelegate = devicesManager   // retain cycle?
-        settings = Settings(store: UserDefaultsSettingsStore())
     }
     
     func configureLogin(viewController: LoginViewController)

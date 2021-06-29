@@ -16,6 +16,6 @@ struct DeviceInfo {
 
 extension DeviceInfo: Equatable {
     static func == (lhs: DeviceInfo, rhs: DeviceInfo) -> Bool {
-        return lhs.name == rhs.name
+        return lhs.name == rhs.name && lhs.type == rhs.type
     }
 }

@@ -13,21 +13,23 @@ class DevicesManager
     var devices:        [ Device ] = []
     let photonManager:  PhotonManager
     let mqtt:           MQTTManager
+    let settings:       Settings
+    var favoritesList:  [String]                // List of favorite device names
     weak var delegate:  DeviceNotifying?
 
     var favorites: [ Device ] {
         return devices.filter { $0.isFavorite == true }
     }
 
-    init(photonManager: PhotonManager, mqtt: MQTTManager)
+    init(photonManager: PhotonManager, mqtt: MQTTManager, settings: Settings)
     {
         print("DevicesManager init")
         self.photonManager = photonManager
         self.mqtt = mqtt
+        self.settings = settings
+        favoritesList = settings.favorites ?? []
         mqtt.deviceDelegate = self
-        
-        devices.append(Device(name: "office", type: .Light, percent: 0))  // Huh?
-        
+//        devices.append(Device(name: "office", type: .Light, percent: 0))  // Huh?
         refresh(devices: photonManager.devices)
     }
 
@@ -95,7 +97,8 @@ extension DevicesManager
             let name = device.name
             let type = device.type
             let percent = device.percent
-            self.devices.append(Device(name: name, type: type, percent: percent))
+            let isFavorite = favoritesList.contains(name)
+            self.devices.append(Device(name: name, type: type, percent: percent, isFavorite: isFavorite))
         }
         delegate?.deviceListChanged()
     }
