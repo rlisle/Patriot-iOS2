@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol PhotonNotifying
+protocol PhotonDeviceInfoNotifying
 {
-    func photon(named: String, hasDevices: [DeviceInfo])
+    func photon(named: String, hasDeviceInfos: [DeviceInfo])
 }

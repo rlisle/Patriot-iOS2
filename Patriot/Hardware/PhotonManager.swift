@@ -184,11 +184,11 @@ extension PhotonManager
 
 
 // These methods receive the capabilities of each photon asynchronously
-extension PhotonManager: PhotonNotifying
+extension PhotonManager: PhotonDeviceInfoNotifying
 {
-    func photon(named: String, hasDevices: [DeviceInfo])
+    func photon(named: String, hasDeviceInfos: [DeviceInfo])
     {
-        for device in hasDevices {
+        for device in hasDeviceInfos {
             if device.name != "" && devices.contains(device) == false {
                 devices.append(device)
             }

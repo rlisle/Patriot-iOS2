@@ -12,6 +12,7 @@
 import Foundation
 
 struct DeviceInfo {
+    var photonName: String
     var name: String
     var type: DeviceType
     var percent: Int

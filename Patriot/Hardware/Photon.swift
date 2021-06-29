@@ -27,7 +27,7 @@ class Photon
     
     var devices: [DeviceInfo] = []      // Cached list of device names exposed by Photon
     
-    var delegate: PhotonNotifying?      // Notifies manager when status changes
+    var delegate: PhotonDeviceInfoNotifying?      // Notifies manager when status changes
     
 
     internal let particleDevice: ParticleDevice! // Reference to Particle-SDK device object
@@ -80,12 +80,14 @@ extension Photon    // Devices
             let deviceType = DeviceType(rawValue: separatedByColon[0]) ?? DeviceType.Unknown
             let deviceName = separatedByEquals[0].localizedLowercase
             let deviceValue = Int(separatedByEquals[1]) ?? 0
-            let deviceInfo = DeviceInfo(name: deviceName,
-                                        type: deviceType,
-                                        percent: deviceValue )
+            let deviceInfo = DeviceInfo(
+                photonName: self.name,
+                name: deviceName,
+                type: deviceType,
+                percent: deviceValue )
             devices.append(deviceInfo)
         }
-        delegate?.photon(named: self.name, hasDevices: self.devices)
+        delegate?.photon(named: self.name, hasDeviceInfos: self.devices)
     }
 }
 

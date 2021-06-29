@@ -19,17 +19,38 @@ class Device
     var onImage:       UIImage
     var offImage:      UIImage
     var type:          DeviceType
-    var percent:       Int             = 0
-    var isFavorite:    Bool            = false
-    weak var delegate: DeviceDelegate? = nil
+    private var _percent: Int
+    private var _isFavorite: Bool
+
+    weak var delegate: DeviceDelegate?    
+
+    var percent:       Int {
+        get {
+            return _percent
+        }
+        set {
+            _percent = newValue
+            delegate?.devicePercentChanged(name: name, type: type, percent: _percent)
+        }
+    }
+    var isFavorite:    Bool {
+        get {
+            return _isFavorite
+        }
+        
+        set {
+            _isFavorite = newValue
+            delegate?.isFavoriteChanged(name: name, type: type, isFavorite: _isFavorite)
+        }
+    }
     
     init(name: String, type: DeviceType) {
-        self.name       = name
-        self.type       = type
-//        setImagesFor(type: type)
-//    }
-//
-//    func setImagesFor(type: DeviceType) {
+        self.name        = name
+        self.type        = type
+        self._percent    = 0
+        self._isFavorite = false
+        self.delegate    = nil
+        
         switch type {
         case .Curtain:
             self.onImage = #imageLiteral(resourceName: "CurtainOpen")
