@@ -84,8 +84,8 @@ extension Photon    // Devices
                                         type: deviceType,
                                         percent: deviceValue )
             devices.append(deviceInfo)
-            delegate?.device(named: self.name, hasDevices: self.devices)
         }
+        delegate?.photon(named: self.name, hasDevices: self.devices)
     }
 }
 

@@ -2,6 +2,9 @@
 //  DeviceInfo.swift
 //  Patriot
 //
+//  DeviceInfo represents a device defined on a Photon
+//  Separate Photons may define the same DeviceInfo
+//
 //  Created by Ron Lisle on 6/2/18.
 //  Copyright © 2018 Rons iMac. All rights reserved.
 //

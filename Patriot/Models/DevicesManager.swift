@@ -98,7 +98,10 @@ extension DevicesManager
             let type = device.type
             let percent = device.percent
             let isFavorite = favoritesList.contains(name)
-            self.devices.append(Device(name: name, type: type, percent: percent, isFavorite: isFavorite))
+            var newDevice = Device(name: name, type: type)
+            newDevice.percent = percent
+            newDevice.isFavorite = favoritesList.contains(name)
+            self.devices.append(newDevice)
         }
         delegate?.deviceListChanged()
     }
