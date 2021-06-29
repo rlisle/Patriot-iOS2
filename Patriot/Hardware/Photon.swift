@@ -25,7 +25,7 @@ class Photon
 {
     let uninitializedString = "uninitialized"
     
-    var devices: [DeviceInfo] = []      // Cached list of device names exposed by Photon
+    var devices: Set<DeviceInfo> = []      // Cached list of device names exposed by Photon
     
     var delegate: PhotonDeviceInfoNotifying?      // Notifies manager when status changes
     
@@ -85,7 +85,7 @@ extension Photon    // Devices
                 name: deviceName,
                 type: deviceType,
                 percent: deviceValue )
-            devices.append(deviceInfo)
+            devices.insert(deviceInfo)
         }
         delegate?.photon(named: self.name, hasDeviceInfos: self.devices)
     }
