@@ -29,7 +29,6 @@ class DevicesManager
         self.settings = settings
         favoritesList = settings.favorites ?? []
         mqtt.deviceDelegate = self
-//        devices.append(Device(name: "office", type: .Light, percent: 0))  // Huh?
         refresh(devices: photonManager.devices)
     }
 
@@ -56,6 +55,7 @@ class DevicesManager
         }
     }
 
+    //TODO: Instead of index use hash (name+type)
     func favoriteDeviceIndex(at: Int) -> Int? {
         guard at < favorites.count else {
             return nil
@@ -97,13 +97,24 @@ extension DevicesManager
             let name = device.name
             let type = device.type
             let percent = device.percent
-            let isFavorite = favoritesList.contains(name)
-            var newDevice = Device(name: name, type: type)
+            let newDevice = Device(name: name, type: type)
             newDevice.percent = percent
             newDevice.isFavorite = favoritesList.contains(name)
             self.devices.append(newDevice)
         }
         delegate?.deviceListChanged()
+    }
+    
+    //TODO: use hash
+    func updateFavoritesList() {
+        favoritesList = []
+        for device in devices
+        {
+            if device.isFavorite {
+                favoritesList.append(device.name)
+            }
+        }
+        settings.favorites = favoritesList
     }
 }
 

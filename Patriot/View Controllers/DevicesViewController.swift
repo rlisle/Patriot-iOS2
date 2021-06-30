@@ -152,6 +152,7 @@ extension DevicesViewController: DeviceNotifying {
 
 extension DevicesViewController: FavoriteNotifying {
     func favoriteChanged(device: Device) {
+        deviceManager?.updateFavoritesList()
         collectionView?.reloadData()
     }
 }
